@@ -56,7 +56,7 @@ html, body {
 .book-wrap {
   position: relative;
   width: min(92vw, 420px);
-  height: min(84vh, 640px);
+  height: min(74vh, 600px);
   perspective: 1800px;
 }
 
@@ -124,7 +124,6 @@ html, body {
 .dots {
   display: flex;
   gap: 7px;
-  margin-top: 18px;
   align-items: center;
   z-index: 10;
 }
@@ -139,41 +138,35 @@ html, body {
   transform: scale(1.4);
 }
 
-/* ── SWIPE HINT ── */
-.hint {
-  margin-top: 10px;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 11px;
-  color: rgba(201,162,85,.22);
-  letter-spacing: .08em;
-  z-index: 10;
-}
-
-/* ── ARROW BUTTONS (visible on wider screens / desktop) ── */
-.arr {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: 1px solid rgba(201,162,85,.18);
-  color: rgba(201,162,85,.4);
-  font-size: 18px;
-  width: 38px; height: 56px;
-  cursor: pointer;
+/* ── BOTTOM NAV ── */
+.bottom-nav {
   display: flex;
   align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  z-index: 10;
+}
+.nav-btn {
+  background: none;
+  border: 1px solid rgba(201,162,85,.28);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s, opacity .2s;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 104px;
   justify-content: center;
-  transition: border-color .2s, color .2s;
-  z-index: 20;
 }
-.arr:hover { border-color: var(--gold); color: var(--gold); }
-.arr:disabled { opacity: .12; pointer-events: none; }
-#arrL { left: 12px; }
-#arrR { right: 12px; }
-@media (max-width: 600px) {
-  .arr { display: none; }
-}
+.nav-btn:active { background: rgba(201,162,85,.1); }
+.nav-btn:hover  { background: rgba(201,162,85,.07); border-color: var(--gold); }
+.nav-btn:disabled { opacity: .15; pointer-events: none; }
 
 /* ════════════════════════════════════════
    PAGE CONTENT TYPES
@@ -488,12 +481,19 @@ html, body {
   </div>
 
   <div class="dots" id="dots"></div>
-  <div class="hint" id="hint">swipe to turn pages</div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn" id="btnPrev" onclick="turn(-1)">
+      <svg width="8" height="12" viewBox="0 0 8 12" fill="none"><path d="M7 1L1 6L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Previous
+    </button>
+    <button class="nav-btn" id="btnNext" onclick="turn(1)">
+      Next
+      <svg width="8" height="12" viewBox="0 0 8 12" fill="none"><path d="M1 1L7 6L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
 
 </div>
-
-<button class="arr" id="arrL" onclick="turn(-1)">&#9664;</button>
-<button class="arr" id="arrR" onclick="turn(1)">&#9654;</button>
 
 <script>
 // ── PAGE DEFINITIONS ────────────────────────────────────────
@@ -544,10 +544,7 @@ function ep(label) {
 // Pages (single-page, mobile order)
 const pages = [
 
-  // 0 — decorative endpaper
-  ep('2025 · 2026'),
-
-  // 1 — cover
+  // 0 — cover
   dark(`
     <div class="eyebrow" style="font-size:7px;margin-bottom:4px">Alexander W. Dreyfoos School of the Arts</div>
     <div style="font-family:'Cormorant Garamond',serif;font-size:44px;color:var(--gold);opacity:.12;line-height:1;margin:6px 0;position:relative;z-index:1">♫</div>
@@ -711,20 +708,16 @@ const pages = [
     <div class="eyebrow" style="opacity:.22;font-size:6.5px">West Palm Beach, Florida</div>
   `, ''),
 
-  // 12 — closing endpaper
-  ep('Dreyfoos · 2026'),
-
 ];
 
 // ── ENGINE ───────────────────────────────────────────────────
 let cur = 0;
 let busy = false;
 
-const wrap  = document.getElementById('bookWrap');
-const dotsEl = document.getElementById('dots');
-const hintEl = document.getElementById('hint');
-const btnL  = document.getElementById('arrL');
-const btnR  = document.getElementById('arrR');
+const wrap    = document.getElementById('bookWrap');
+const dotsEl  = document.getElementById('dots');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
 
 // build dot indicators
 pages.forEach((_, i) => {
@@ -737,8 +730,8 @@ function renderDots() {
   dotsEl.querySelectorAll('.dot').forEach((d, i) => {
     d.classList.toggle('active', i === cur);
   });
-  btnL.disabled = cur === 0;
-  btnR.disabled = cur === pages.length - 1;
+  btnPrev.disabled = cur === 0;
+  btnNext.disabled = cur === pages.length - 1;
 }
 
 function buildPage(index) {
@@ -759,8 +752,6 @@ function turn(dir) {
   const next = cur + dir;
   if (next < 0 || next >= pages.length) return;
   busy = true;
-
-  hintEl.style.opacity = '0';
 
   const outClass = dir > 0 ? 'flipping-out-right' : 'flipping-out-left';
   const inClass  = dir > 0 ? 'flipping-in-right'  : 'flipping-in-left';
@@ -824,18 +815,6 @@ function setVh() {
 }
 setVh();
 window.addEventListener('resize', setVh);
-
-// fade hint out after first interaction
-function hideHint() {
-  hintEl.style.transition = 'opacity .6s';
-  hintEl.style.opacity = '0';
-  document.removeEventListener('touchstart', hideHint);
-  document.removeEventListener('keydown', hideHint);
-}
-setTimeout(() => {
-  document.addEventListener('touchstart', hideHint, { passive: true });
-  document.addEventListener('keydown', hideHint);
-}, 1500);
 </script>
 </body>
 </html>
