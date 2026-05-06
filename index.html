@@ -27,7 +27,6 @@ html, body {
   overflow:hidden;
   background:#060604;
   font-family:'Cormorant Garamond',serif;
-  touch-action:none;
 }
 
 .stage {
@@ -51,6 +50,7 @@ html, body {
   height:min(72vh, 580px);
   perspective:1800px;
   flex-shrink:0;
+  touch-action: pan-y;
 }
 
 .page {
