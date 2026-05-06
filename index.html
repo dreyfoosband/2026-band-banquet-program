@@ -20,448 +20,193 @@
   --cream:   #F6F1E6;
   --ink:     #1C1508;
   --mid:     #7a6035;
-  --vh: 1vh;
 }
 
 html, body {
-  width: 100%; height: 100%;
-  overflow: hidden;
-  background: #060604;
-  font-family: 'Cormorant Garamond', serif;
-  touch-action: none;
+  width:100%; height:100%;
+  overflow:hidden;
+  background:#060604;
+  font-family:'Cormorant Garamond',serif;
+  touch-action:none;
 }
 
-/* ── STAGE ── */
 .stage {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(ellipse 120% 80% at 50% 45%, #1a150a 0%, #060604 100%);
-  overflow: hidden;
+  position:fixed; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  background:radial-gradient(ellipse 120% 80% at 50% 45%, #1a150a 0%, #060604 100%);
+  overflow:hidden;
+  gap:0;
 }
-
-/* subtle ambient dots */
 .stage::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(201,162,85,.06) 1px, transparent 1px);
-  background-size: 28px 28px;
-  pointer-events: none;
+  content:''; position:absolute; inset:0;
+  background-image:radial-gradient(circle, rgba(201,162,85,.05) 1px, transparent 1px);
+  background-size:28px 28px; pointer-events:none;
 }
 
-/* ── BOOK WRAPPER ── */
+/* ── BOOK ── */
 .book-wrap {
-  position: relative;
-  width: min(92vw, 420px);
-  height: min(74vh, 600px);
-  perspective: 1800px;
+  position:relative;
+  width:min(92vw, 420px);
+  height:min(72vh, 580px);
+  perspective:1800px;
+  flex-shrink:0;
 }
 
-/* ── PAGES ── */
 .page {
-  position: absolute;
-  inset: 0;
-  border-radius: 3px;
-  overflow: hidden;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.75),
-    0 4px 16px rgba(0,0,0,.5),
-    0 0 0 1px rgba(201,162,85,.08);
+  position:absolute; inset:0;
+  border-radius:3px; overflow:hidden;
+  will-change:transform,opacity;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,.75), 0 4px 16px rgba(0,0,0,.5), 0 0 0 1px rgba(201,162,85,.08);
 }
+.page.behind { z-index:1; }
+.page.front  { z-index:2; }
+.page.flipping-out-right { z-index:3; animation:flipOutR .52s cubic-bezier(.4,0,.2,1) forwards; transform-origin:right center; }
+.page.flipping-out-left  { z-index:3; animation:flipOutL .52s cubic-bezier(.4,0,.2,1) forwards; transform-origin:left center; }
+.page.flipping-in-right  { z-index:2; animation:flipInR  .52s cubic-bezier(.4,0,.2,1) forwards; }
+.page.flipping-in-left   { z-index:2; animation:flipInL  .52s cubic-bezier(.4,0,.2,1) forwards; }
 
-/* incoming page sits behind */
-.page.behind {
-  z-index: 1;
-}
-/* active page on top */
-.page.front {
-  z-index: 2;
-}
-/* flip-out transition */
-.page.flipping-out-right {
-  z-index: 3;
-  animation: flipOutRight .55s cubic-bezier(.4,0,.2,1) forwards;
-  transform-origin: right center;
-}
-.page.flipping-out-left {
-  z-index: 3;
-  animation: flipOutLeft .55s cubic-bezier(.4,0,.2,1) forwards;
-  transform-origin: left center;
-}
-.page.flipping-in-right {
-  z-index: 2;
-  animation: flipInRight .55s cubic-bezier(.4,0,.2,1) forwards;
-}
-.page.flipping-in-left {
-  z-index: 2;
-  animation: flipInLeft .55s cubic-bezier(.4,0,.2,1) forwards;
-}
-
-@keyframes flipOutRight {
-  0%   { transform: rotateY(0deg);    opacity:1; }
-  100% { transform: rotateY(90deg);   opacity:0; }
-}
-@keyframes flipOutLeft  {
-  0%   { transform: rotateY(0deg);    opacity:1; }
-  100% { transform: rotateY(-90deg);  opacity:0; }
-}
-@keyframes flipInRight  {
-  0%   { transform: rotateY(-90deg);  opacity:0; }
-  100% { transform: rotateY(0deg);    opacity:1; }
-}
-@keyframes flipInLeft   {
-  0%   { transform: rotateY(90deg);   opacity:0; }
-  100% { transform: rotateY(0deg);    opacity:1; }
-}
+@keyframes flipOutR { 0%{transform:rotateY(0deg);opacity:1} 100%{transform:rotateY(90deg);opacity:0} }
+@keyframes flipOutL { 0%{transform:rotateY(0deg);opacity:1} 100%{transform:rotateY(-90deg);opacity:0} }
+@keyframes flipInR  { 0%{transform:rotateY(-90deg);opacity:0} 100%{transform:rotateY(0deg);opacity:1} }
+@keyframes flipInL  { 0%{transform:rotateY(90deg);opacity:0}  100%{transform:rotateY(0deg);opacity:1} }
 
 /* ── BOTTOM NAV ── */
 .bottom-nav {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 14px;
-  z-index: 10;
+  display:flex; align-items:center; gap:16px;
+  margin-top:14px; z-index:10; flex-shrink:0;
 }
 .nav-btn {
-  background: none;
-  border: 1px solid rgba(201,162,85,.28);
-  color: var(--gold);
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  padding: 9px 20px;
-  cursor: pointer;
-  transition: background .2s, border-color .2s, opacity .2s;
-  -webkit-tap-highlight-color: transparent;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  min-width: 104px;
-  justify-content: center;
+  background:none;
+  border:1px solid rgba(201,162,85,.28);
+  color:var(--gold);
+  font-family:'Cinzel',serif;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  padding:9px 20px; cursor:pointer;
+  transition:background .2s,border-color .2s,opacity .2s;
+  -webkit-tap-highlight-color:transparent;
+  display:flex; align-items:center; gap:7px;
+  min-width:104px; justify-content:center;
 }
-.nav-btn:active { background: rgba(201,162,85,.1); }
-.nav-btn:hover  { background: rgba(201,162,85,.07); border-color: var(--gold); }
-.nav-btn:disabled { opacity: .15; pointer-events: none; }
+.nav-btn:active { background:rgba(201,162,85,.1); }
+.nav-btn:hover  { background:rgba(201,162,85,.07); border-color:var(--gold); }
+.nav-btn:disabled { opacity:.15; pointer-events:none; }
 
-/* ════════════════════════════════════════
-   PAGE CONTENT TYPES
-════════════════════════════════════════ */
+/* ══ PAGE CHROME ══ */
+.chrome { position:relative; width:100%; height:100%; overflow:hidden; }
+.cborder { position:absolute; inset:10px; border:1px solid rgba(201,162,85,.2); pointer-events:none; z-index:1; }
+.cborder::after { content:''; position:absolute; inset:5px; border:1px solid rgba(201,162,85,.07); }
+.co { position:absolute; width:13px; height:13px; z-index:2; }
+.co.tl { top:14px;left:14px;   border-top:1.5px solid var(--gold-dk);border-left:1.5px solid var(--gold-dk); }
+.co.tr { top:14px;right:14px;  border-top:1.5px solid var(--gold-dk);border-right:1.5px solid var(--gold-dk); }
+.co.bl { bottom:14px;left:14px;  border-bottom:1.5px solid var(--gold-dk);border-left:1.5px solid var(--gold-dk); }
+.co.br { bottom:14px;right:14px; border-bottom:1.5px solid var(--gold-dk);border-right:1.5px solid var(--gold-dk); }
+.pg-num { position:absolute; bottom:20px; right:24px; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:11px; color:rgba(201,162,85,.2); z-index:3; }
 
-/* shared decorative chrome */
-.page-chrome {
-  width: 100%; height: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 36px 28px;
-  text-align: center;
-}
-.chrome-border {
-  position: absolute;
-  inset: 10px;
-  border: 1px solid rgba(201,162,85,.2);
-  pointer-events: none;
-}
-.chrome-border::after {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  border: 1px solid rgba(201,162,85,.07);
-}
-.corner { position:absolute; width:14px; height:14px; }
-.ctlc { top:14px;  left:14px;  border-top:1.5px solid var(--gold-dk); border-left:1.5px solid var(--gold-dk); }
-.ctrc { top:14px;  right:14px; border-top:1.5px solid var(--gold-dk); border-right:1.5px solid var(--gold-dk); }
-.cblc { bottom:14px; left:14px;  border-bottom:1.5px solid var(--gold-dk); border-left:1.5px solid var(--gold-dk); }
-.cbrc { bottom:14px; right:14px; border-bottom:1.5px solid var(--gold-dk); border-right:1.5px solid var(--gold-dk); }
-
-/* ── DARK PAGES ── */
+/* ── DARK PAGE ── */
 .dp {
-  background: var(--black);
-  background-image:
-    radial-gradient(ellipse 100% 70% at 50% 60%, #1f1a0d 0%, #0A0A08 100%);
+  width:100%;height:100%;
+  background:var(--black);
+  background-image:radial-gradient(ellipse 100% 70% at 50% 60%,#1f1a0d 0%,#0A0A08 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center; padding:44px 36px; position:relative;
 }
-.dp-noise {
-  position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
-  pointer-events: none;
+.dp-noise { position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
 }
 
-/* ── LIGHT PAGES ── */
+/* ── LIGHT PAGE ── */
 .lp {
-  background: var(--cream);
-  background-image: linear-gradient(155deg, #fbf7ee 0%, #f0e8d5 100%);
-  padding: 36px 30px 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  width:100%;height:100%;
+  background:var(--cream);
+  background-image:linear-gradient(155deg,#fbf7ee 0%,#f0e8d5 100%);
+  display:flex;flex-direction:column;
+  padding:30px 28px 28px; position:relative; overflow:hidden;
 }
-.lp-shadow {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 6px;
-  background: linear-gradient(to bottom, rgba(0,0,0,.08), transparent);
-  pointer-events: none;
-}
+.lp-shadow { position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(to bottom,rgba(0,0,0,.07),transparent);pointer-events:none; }
 
 /* ── CHAPTER PAGE ── */
-.chap-page {
-  background: var(--black2);
-  background-image: linear-gradient(145deg, #151510, #0a0a08);
+.chap-wrap {
+  width:100%;height:100%;
+  background:var(--black2);
+  background-image:linear-gradient(145deg,#151510,#0a0a08);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center; position:relative; overflow:hidden; padding:44px 36px;
 }
-.chap-big {
-  position: absolute;
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(140px, 45vw, 200px);
-  color: rgba(201,162,85,.04);
-  font-weight: 700;
-  line-height: 1;
-  user-select: none;
-  pointer-events: none;
-  letter-spacing: -.02em;
+.chap-grid { position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(201,162,85,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,162,85,.05) 1px,transparent 1px);
+  background-size:36px 36px;
 }
-.chap-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(201,162,85,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,162,85,.05) 1px, transparent 1px);
-  background-size: 36px 36px;
-  pointer-events: none;
-}
+.chap-bg { position:absolute;font-family:'Cinzel Decorative',serif;font-size:clamp(130px,42vw,190px);
+  color:rgba(201,162,85,.04);font-weight:700;line-height:1;user-select:none;pointer-events:none; }
 
-/* ── TYPOGRAPHY ── */
-.eyebrow {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(7px, 2vw, 9px);
-  letter-spacing: .34em;
-  text-transform: uppercase;
-  color: var(--gold-dk);
-  position: relative; z-index: 1;
-}
-.rule {
-  width: 60px; height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  margin: 14px auto;
-  position: relative; z-index: 1;
-}
-.rule-full {
-  width: 100%; height: 1px;
-  background: linear-gradient(to right, transparent, rgba(201,162,85,.4), transparent);
-  margin: 8px 0 14px;
-  flex-shrink: 0;
-}
-.orn {
-  color: var(--gold);
-  font-size: 12px;
-  letter-spacing: .3em;
-  position: relative; z-index: 1;
-  opacity: .75;
-}
-.h1-deco {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(26px, 8vw, 34px);
-  font-weight: 700;
-  color: var(--gold);
-  line-height: 1.2;
-  letter-spacing: .04em;
-  position: relative; z-index: 1;
-}
-.h2-deco {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(9px, 2.5vw, 11px);
-  font-weight: 600;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(201,162,85,.7);
-  position: relative; z-index: 1;
-}
-.chap-sub {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(7px, 2vw, 9px);
-  letter-spacing: .5em;
-  text-transform: uppercase;
-  color: rgba(201,162,85,.35);
-  z-index: 1;
-}
-.chap-title {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(34px, 12vw, 52px);
-  color: var(--gold);
-  z-index: 1;
-  line-height: 1;
-}
-.chap-yr {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(13px, 3.5vw, 16px);
-  color: rgba(201,162,85,.35);
-  z-index: 1;
-  margin-top: 10px;
-}
-.chap-line {
-  width: 44px; height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  margin: 12px auto; z-index: 1;
-}
-.pg-hdr {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(7px, 2vw, 8.5px);
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  color: var(--gold-dk);
-  margin-bottom: 4px;
-  flex-shrink: 0;
-}
-.pg-title {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(15px, 4.5vw, 20px);
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: .08em;
-  margin-bottom: 6px;
-  flex-shrink: 0;
-}
-.body-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(14px, 4vw, 16px);
-  line-height: 1.8;
-  color: #2a1e0a;
-  flex: 1;
-  overflow: hidden;
-}
-.body-text p { margin-bottom: 9px; }
-.body-italic {
-  font-style: italic;
-  color: rgba(42,30,10,.5);
-}
-.sig {
-  margin-top: auto;
-  padding-top: 12px;
-  border-top: 1px solid rgba(201,162,85,.2);
-  flex-shrink: 0;
-}
-.sig-name {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(9px, 2.5vw, 11px);
-  font-weight: 600;
-  letter-spacing: .18em;
-  color: var(--gold-dk);
-}
-.sig-role {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(11px, 3.2vw, 13px);
-  color: var(--mid);
-}
+/* ══ TYPE ══ */
+.eyebrow { font-family:'Cinzel',serif; font-size:clamp(7px,1.8vw,8.5px); letter-spacing:.34em; text-transform:uppercase; color:var(--gold-dk); position:relative;z-index:1; }
+.rule    { width:56px;height:1px; background:linear-gradient(to right,transparent,var(--gold),transparent); margin:12px auto; position:relative;z-index:1; }
+.rule-full { width:100%;height:1px; background:linear-gradient(to right,transparent,rgba(201,162,85,.38),transparent); margin:6px 0 12px; flex-shrink:0; }
+.orn     { color:var(--gold);font-size:11px;letter-spacing:.28em;position:relative;z-index:1;opacity:.75; }
+.h1      { font-family:'Cinzel Decorative',serif; font-size:clamp(26px,8.5vw,38px); font-weight:700; color:var(--gold); line-height:1.18; letter-spacing:.04em; position:relative;z-index:1; }
+.h2      { font-family:'Cinzel',serif; font-size:clamp(9px,2.4vw,11px); font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:rgba(201,162,85,.7); position:relative;z-index:1; }
+.chap-sub  { font-family:'Cinzel',serif; font-size:clamp(7px,1.8vw,9px); letter-spacing:.5em; text-transform:uppercase; color:rgba(201,162,85,.35); z-index:1; }
+.chap-line { width:40px;height:1px; background:linear-gradient(to right,transparent,var(--gold),transparent); margin:11px auto;z-index:1; }
+.chap-ttl  { font-family:'Cinzel Decorative',serif; font-size:clamp(34px,12vw,52px); color:var(--gold); z-index:1; line-height:1; }
+.chap-yr   { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(13px,3.5vw,15px); color:rgba(201,162,85,.35); z-index:1; margin-top:10px; }
+.pg-hdr  { font-family:'Cinzel',serif; font-size:clamp(6.5px,1.7vw,8px); letter-spacing:.3em; text-transform:uppercase; color:var(--gold-dk); margin-bottom:3px; flex-shrink:0; }
+.pg-ttl  { font-family:'Cinzel',serif; font-size:clamp(14px,4.2vw,18px); font-weight:600; color:var(--ink); letter-spacing:.07em; margin-bottom:5px; flex-shrink:0; }
+.body    { font-family:'Cormorant Garamond',serif; font-size:clamp(13.5px,3.8vw,15.5px); line-height:1.82; color:#2a1e0a; flex:1; overflow:hidden; }
+.body p  { margin-bottom:8px; }
+.body-i  { font-style:italic; color:rgba(42,30,10,.5); }
+.sig     { margin-top:auto; padding-top:10px; border-top:1px solid rgba(201,162,85,.2); flex-shrink:0; }
+.sig-name { font-family:'Cinzel',serif; font-size:clamp(9px,2.4vw,11px); font-weight:600; letter-spacing:.18em; color:var(--gold-dk); }
+.sig-role { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(11px,3vw,13px); color:var(--mid); }
 
-/* placeholder rows */
-.ph-section { margin-bottom: 10px; flex-shrink: 0; }
-.ph-lbl {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(6.5px, 1.8vw, 8px);
-  letter-spacing: .28em;
-  text-transform: uppercase;
-  color: var(--gold-dk);
-  opacity: .65;
-  margin-bottom: 4px;
-}
-.ph {
-  background: rgba(201,162,85,.04);
-  border: 1px dashed rgba(201,162,85,.18);
-  border-radius: 2px;
-  padding: 5px 10px;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(11px, 3.2vw, 13px);
-  color: rgba(42,30,10,.32);
-  margin-bottom: 4px;
-}
-.ph::before { content: '⟦  '; font-style:normal; color:rgba(201,162,85,.32); }
-.ph::after  { content: '  ⟧'; font-style:normal; color:rgba(201,162,85,.32); }
+/* ── EVENTS TABLE ── */
+.ev-table { width:100%; border-collapse:collapse; flex:1; }
+.ev-table th { font-family:'Cinzel',serif; font-size:clamp(6px,1.6vw,7.5px); letter-spacing:.22em; text-transform:uppercase;
+  color:rgba(255,255,255,.85); background:var(--black); padding:5px 8px; text-align:left; }
+.ev-table td { font-family:'Cormorant Garamond',serif; font-size:clamp(11px,3vw,13px); color:#2a1e0a;
+  padding:3px 8px; border-bottom:1px solid rgba(201,162,85,.1); vertical-align:top; line-height:1.35; }
+.ev-table tr:nth-child(even) td { background:rgba(201,162,85,.04); }
+.ev-date { font-family:'Cinzel',serif; font-size:clamp(7px,1.8vw,8.5px); color:var(--gold-dk); letter-spacing:.06em; white-space:nowrap; }
 
-/* photo placeholder */
-.photo-ph {
-  width: 100%;
-  flex: 1;
-  background: rgba(201,162,85,.04);
-  border: 1px dashed rgba(201,162,85,.2);
-  border-radius: 3px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-.photo-ph-icon {
-  font-size: 32px;
-  opacity: .18;
-}
-.photo-ph-lbl {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-  color: rgba(201,162,85,.25);
-}
+/* ── ROSTER ── */
+.roster-cols { display:grid; grid-template-columns:1fr 1fr; gap:0 10px; flex:1; overflow:hidden; }
+.roster-item { font-family:'Cormorant Garamond',serif; font-size:clamp(10px,2.7vw,12px);
+  color:#2a1e0a; line-height:1.45; padding:1.5px 0; border-bottom:1px solid rgba(201,162,85,.08); }
+.roster-item.senior { color:var(--gold-dk); font-weight:600; }
+.roster-item .instr { font-size:clamp(9px,2.4vw,10.5px); color:rgba(42,30,10,.45); font-style:italic; }
+.roster-item.senior .instr { color:rgba(139,106,32,.55); }
+.roster-hdr { font-family:'Cinzel',serif; font-size:clamp(7px,1.8vw,8px); letter-spacing:.22em; text-transform:uppercase;
+  color:rgba(201,162,85,.6); grid-column:1/-1; margin-bottom:4px; }
 
-/* ── PAGE NUMBER ── */
-.pg-num {
-  position: absolute;
-  bottom: 22px;
-  right: 26px;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: 11px;
-  color: rgba(201,162,85,.22);
-  letter-spacing: .1em;
-  z-index: 2;
-}
-.dp .pg-num { color: rgba(201,162,85,.18); }
+/* ── BOARD / ACKNOWLEDGMENTS ── */
+.board-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px 12px; margin-bottom:8px; }
+.board-item { font-family:'Cormorant Garamond',serif; font-size:clamp(10px,2.7vw,12px); line-height:1.4; color:#2a1e0a; }
+.board-title { font-family:'Cinzel',serif; font-size:clamp(6px,1.6vw,7.5px); letter-spacing:.2em; text-transform:uppercase; color:var(--gold-dk); margin-bottom:1px; }
+.board-name  { font-size:clamp(10px,2.8vw,12.5px); }
+.ack-block { margin-bottom:8px; flex-shrink:0; }
+.ack-lbl { font-family:'Cinzel',serif; font-size:clamp(6.5px,1.7vw,8px); letter-spacing:.28em; text-transform:uppercase; color:var(--gold-dk); opacity:.75; margin-bottom:3px; }
+.ack-text { font-family:'Cormorant Garamond',serif; font-size:clamp(11px,3vw,13px); line-height:1.55; color:#2a1e0a; }
 
-/* ── ENDPAPER ── */
-.ep {
-  background: var(--black2);
-  display: flex; align-items: center; justify-content: center;
-}
-.ep-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(201,162,85,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,162,85,.06) 1px, transparent 1px);
-  background-size: 38px 38px;
-}
-.ep-d1,.ep-d2,.ep-d3 { position:absolute; border:1px solid rgba(201,162,85,.1); transform:rotate(45deg); }
-.ep-d1 { width:220px; height:220px; }
-.ep-d2 { width:150px; height:150px; border-color:rgba(201,162,85,.16); }
-.ep-d3 { width:74px; height:74px; border-color:rgba(201,162,85,.22); }
-.ep-lbl {
-  font-family: 'Cinzel', serif;
-  font-size: 8px;
-  letter-spacing: .45em;
-  text-transform: uppercase;
-  color: rgba(201,162,85,.22);
-  z-index: 1;
-}
+/* ── PLACEHOLDER ── */
+.ph-section { margin-bottom:8px; flex-shrink:0; }
+.ph-lbl { font-family:'Cinzel',serif; font-size:clamp(6.5px,1.7vw,8px); letter-spacing:.28em; text-transform:uppercase; color:var(--gold-dk); opacity:.65; margin-bottom:3px; }
+.ph { background:rgba(201,162,85,.04); border:1px dashed rgba(201,162,85,.18); border-radius:2px;
+  padding:4px 9px; font-family:'Cormorant Garamond',serif; font-style:italic;
+  font-size:clamp(11px,3vw,13px); color:rgba(42,30,10,.3); margin-bottom:3px; }
+.ph::before { content:'⟦  ';font-style:normal;color:rgba(201,162,85,.3); }
+.ph::after  { content:'  ⟧';font-style:normal;color:rgba(201,162,85,.3); }
+.photo-ph { width:100%; flex:1; background:rgba(201,162,85,.04); border:1px dashed rgba(201,162,85,.18);
+  border-radius:3px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; margin-bottom:8px; }
+.photo-ph-icon { font-size:28px; opacity:.16; }
+.photo-ph-lbl { font-family:'Cinzel',serif; font-size:7.5px; letter-spacing:.3em; text-transform:uppercase; color:rgba(201,162,85,.22); }
 </style>
 </head>
 <body>
-
 <div class="stage">
-
-  <div class="book-wrap" id="bookWrap">
-    <!-- pages rendered by JS -->
-  </div>
-
+  <div class="book-wrap" id="bookWrap"></div>
   <div class="bottom-nav">
     <button class="nav-btn" id="btnPrev" onclick="turn(-1)">
       <svg width="8" height="12" viewBox="0 0 8 12" fill="none"><path d="M7 1L1 6L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -472,82 +217,255 @@ html, body {
       <svg width="8" height="12" viewBox="0 0 8 12" fill="none"><path d="M1 1L7 6L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
   </div>
-
 </div>
 
 <script>
-// ── PAGE DEFINITIONS ────────────────────────────────────────
-const CORNERS = `
-  <div class="corner ctlc"></div>
-  <div class="corner ctrc"></div>
-  <div class="corner cblc"></div>
-  <div class="corner cbrc"></div>`;
+// ── HELPERS ──────────────────────────────────────────────────
+const C = `<div class="cborder"></div><div class="co tl"></div><div class="co tr"></div><div class="co bl"></div><div class="co br"></div>`;
 
-function dark(inner, pgn) {
-  return `<div class="page-chrome dp">
-    <div class="dp-noise"></div>
-    <div class="chrome-border"></div>${CORNERS}
-    ${inner}
-    ${pgn ? `<div class="pg-num">${pgn}</div>` : ''}
-  </div>`;
+function dp(inner, n) {
+  return `<div class="chrome dp">${C}<div class="dp-noise"></div>${inner}${n?`<div class="pg-num">${n}</div>`:''}</div>`;
+}
+function lp(inner, n) {
+  return `<div class="lp"><div class="lp-shadow"></div>${inner}${n?`<div class="pg-num" style="color:rgba(139,106,32,.3)">${n}</div>`:''}</div>`;
+}
+function ch(letter, sub, title, year) {
+  return `<div class="chap-wrap">${C}<div class="chap-grid"></div><div class="chap-bg">${letter}</div>
+    <div class="chap-sub">${sub}</div><div class="chap-line"></div>
+    <div class="chap-ttl">${title}</div><div class="chap-line"></div>
+    <div class="chap-yr">${year}</div></div>`;
 }
 
-function light(inner, pgn) {
-  return `<div class="lp" style="position:relative;width:100%;height:100%;">
-    <div class="lp-shadow"></div>
-    ${inner}
-    ${pgn ? `<div class="pg-num" style="color:rgba(139,106,32,.35)">${pgn}</div>` : ''}
-  </div>`;
+// ── ROSTER BUILDER ───────────────────────────────────────────
+function rosterPage(header, headerLabel, students, pgn) {
+  const items = students.map(([name, instr, senior]) =>
+    `<div class="roster-item${senior?' senior':''}">
+       <div>${name}</div>
+       <div class="instr">${instr}</div>
+     </div>`
+  ).join('');
+  return lp(`
+    <div class="pg-hdr">${headerLabel}</div>
+    <div class="pg-ttl">${header}</div>
+    <div class="rule-full"></div>
+    <div class="roster-cols">${items}</div>
+    <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.2em;color:rgba(139,106,32,.4);text-transform:uppercase;margin-top:5px;flex-shrink:0">✦ Gold = Senior</div>
+  `, pgn);
 }
 
-function chap(letter, sub, title, year) {
-  return `<div class="page-chrome chap-page">
-    <div class="chap-grid"></div>
-    <div class="chrome-border"></div>${CORNERS}
-    <div class="chap-big">${letter}</div>
-    <div class="chap-sub">${sub}</div>
-    <div class="chap-line"></div>
-    <div class="chap-title">${title}</div>
-    <div class="chap-line"></div>
-    <div class="chap-yr">${year}</div>
-  </div>`;
+// ── EVENT TABLE BUILDER ──────────────────────────────────────
+function evPage(hdr, ttl, events, pgn, extraCols) {
+  const hdrs = extraCols
+    ? `<th>Date</th><th>Event</th><th>Participants</th>`
+    : `<th>Date</th><th>Event</th>`;
+  const rows = events.map(e => extraCols
+    ? `<tr><td class="ev-date">${e[0]}</td><td>${e[1]}</td><td style="font-size:clamp(9px,2.3vw,10.5px);color:rgba(42,30,10,.55)">${e[2]}</td></tr>`
+    : `<tr><td class="ev-date">${e[0]}</td><td>${e[1]}</td></tr>`
+  ).join('');
+  return lp(`
+    <div class="pg-hdr">${hdr}</div>
+    <div class="pg-ttl">${ttl}</div>
+    <div class="rule-full"></div>
+    <table class="ev-table"><thead><tr>${hdrs}</tr></thead><tbody>${rows}</tbody></table>
+  `, pgn);
 }
 
-function ep(label) {
-  return `<div class="page ep">
-    <div class="ep-grid"></div>
-    <div class="ep-d1"></div><div class="ep-d2"></div><div class="ep-d3"></div>
-    <div class="ep-lbl">${label}</div>
-  </div>`;
-}
+// ── DATA ─────────────────────────────────────────────────────
 
-// Pages (single-page, mobile order)
+const bandEvents1 = [
+  ['September', 'Fall Band Concert'],
+  ['November',  'Veterans\' Concert'],
+  ['December',  'Prism'],
+  ['December',  'Winter Arts Medley Show'],
+  ['January',   'All-State Conference'],
+  ['January',   'All-County Band Concert'],
+  ['February',  'FBA Solo &amp; Ensemble MPA'],
+  ['February',  'DSOA / Bak Side-by-Side'],
+];
+const bandEvents2 = [
+  ['February',  'FAU Concert Band Festival'],
+  ['March',     'FBA Concert Band MPA'],
+  ['March',     'Pulse! Percussion Concert'],
+  ['April',     'Percussive Arts Society Competition'],
+  ['April',     'Music for All Regional Trip'],
+  ['April',     'Band / Vocal Pops Concert'],
+  ['May',       'Spotlight of the Young Arts'],
+  ['May',       'Final Band Concert'],
+];
+
+const jazzEvents1 = [
+  ['September', 'September Jazz Night',         'JE1, JE2 &amp; JE3'],
+  ['October',   'October Jazz Night',           'Jazz Combos Concert'],
+  ['November',  'Master Class with Jazz Master', 'Terell Stafford, Guest Artists'],
+  ['November',  'Evening of Jazz',              'JE1 &amp; Bak MSOA with Terell Stafford'],
+  ['November',  'November Jazz Night',          'JE1, JE2 &amp; JE3'],
+  ['December',  'PRISM 2026',                   'JE1 &amp; Jazz Small Groups'],
+  ['January',   '2026 Florida All-State Jazz',  'D. Goodwin, M. Harper, N. Ratchford, V. Grzybek'],
+  ['February',  'FBA Jazz Festival MPA',        'JE1, 2 &amp; 3 – Straight Superior Ratings ✦'],
+];
+const jazzEvents2 = [
+  ['February', 'Essentially Ellington Orlando Regional', 'JE1 – Outstanding Band ✦'],
+  ['March',    'Jazz Band of America National Honors',    'D. Goodwin, N. Ratchford, A. Sinn ✦'],
+  ['April',    'Orange Blossom Jazz Festival',            'JE1, 2 &amp; 3'],
+  ['April',    'Sunset Lounge with Wynton Marsalis',      'JE1, 2 &amp; 3'],
+  ['April',    'Jazz at Lincoln Center Orchestra',        'JE1 with Paul Nedzela; clinic with V. Gardner &amp; C. Lewis'],
+  ['April',    'Spring Jazz Finale',                      'JE1, 2 &amp; 3'],
+  ['May',      'Essentially Ellington Festival NYC',      'JE1 – National Finalist ✦'],
+  ['2026',     'Downbeat Magazine Awards – WINNER',       'Large Jazz Ensemble – JE1 ✦'],
+];
+
+// WIND ENSEMBLE
+const we1 = [
+  ['Andrew Amburgy','Tuba',false],['Erik Aranyos','French Horn',false],
+  ['John Thomas Berley','Alto Saxophone',true],['Declan Byington','French Horn',false],
+  ['Jadalie Cabrera','Flute',true],['Maxim Castellon','French Horn',false],
+  ['Atreyu Lara Castillo','Clarinet',false],['Gabriella Castro','Alto Saxophone',false],
+  ['Addison Chisari','Trumpet',false],['Allison Connors','Clarinet',false],
+  ['Lara Dalmau','Flute',false],['Johanna Daugherty','Clarinet',false],
+  ['Tommy De Loye','Baritone Sax',false],['Christian Degnan','French Horn',true],
+  ['Zavier Elvena','Bassoon',false],['Ziv Eshet','Flute',false],
+  ['Josefina Ezcurra','Piano',true],['Asha Farrelly','Flute',true],
+  ['Nate Fong','Trumpet',true],['Collin Gallogly','Euphonium',true],
+  ['Abigail Garcia','Bassoon',false],['Bryan Garcia Mendez','Clarinet',false],
+  ['Matthew Goodrich','Flute',false],['Daniel Goodwin','Contra Bass Clarinet',true],
+  ['Jonathan Graef','Trumpet',false],['Ali Grayeb','Tenor Saxophone',true],
+  ['Van Gryzbek','Percussion',true],['Mathew Harper','Trumpet',true],
+  ['Nathaniel Higley','Clarinet',true],['Katherine Hill','Tuba',false],
+  ['Natalie Hume','Tenor Saxophone',false],['Summer Irwin','Oboe',true],
+  ['Lucas Jaffee','Trumpet',false],
+];
+const we2 = [
+  ['Ariana Katz','Trombone',true],['Alexander Korkin','Percussion',false],
+  ['Sarah Kranz','French Horn',true],['Ivy Krist','Flute',true],
+  ['Princess Leyson','Clarinet',true],['Alex Makhorin','Percussion',false],
+  ['Alex Margolis','Percussion',false],['Yurem Munoz-Martinez','Double Bass',true],
+  ['Jackson Murray','Trumpet',true],['Colin Nardi','Alto Saxophone',true],
+  ['Angelina Nesbitt','Trumpet',true],['Neil O\'Connor','Euphonium',false],
+  ['Bella Parton','Trombone',false],['Mikaela Peros','Clarinet',false],
+  ['Abigail Pirela Goatache','Flute',false],['Graham Randolph','Bass Trombone',true],
+  ['Nat Ratchford','Euphonium',false],['Selena Romero','Bass Clarinet',false],
+  ['Micah Sachsenheimer','Piano',true],['Luna Schneider','Percussion',false],
+  ['Zachary Schnitzer','Tuba',false],['Adele Schwinghammer','Clarinet',false],
+  ['Arsalan Siddiqui','Trombone',false],['Henry Skatoff','French Horn',true],
+  ['Sean Skatoff','Bassoon',true],['Anderson Spellman','Tenor Saxophone',true],
+  ['Adrian Trochez','Trumpet',true],['Edilser Velasquez','Trumpet',true],
+  ['Kai Watson','Tuba',false],['Drew Weinberg','Percussion',false],
+  ['Davis Yang','Alto Saxophone',false],['Brayden Yescheck','Trumpet',false],
+];
+
+// SYMPHONIC BAND
+const sb1 = [
+  ['Caleb Aberns','Tuba',false],['Alberto Aguayo Gonzalez','Euphonium',false],
+  ['Jacqueline Albert','Clarinet',false],['Emilie Alferez','Trumpet',false],
+  ['Maya Aloni','Percussion',false],['Sonia Alvarez','Trombone',false],
+  ['Daniel Ayala','Clarinet',false],['Imogen Bouwman','Oboe',false],
+  ['Briauna Brown','Trumpet',false],['Chelsea Brown','Clarinet',false],
+  ['William Calcutti','Euphonium',false],['Annabella Camacho','Trombone',false],
+  ['Jack Capps','Trumpet',false],['Stephen Carr','Trombone',false],
+  ['Arrian Charles','Percussion',false],['Xachary Charles','Percussion',false],
+  ['Grayson Chisari','Trombone',false],['Levi Cooper','Percussion',false],
+  ['Noah Coore-Brown','Trumpet',false],['Andrea Cortes Vazquez','Clarinet',false],
+  ['Pedro Coutinho','Alto Saxophone',false],['Abigail Cuevas','Baritone Sax',false],
+  ['Angelo Dekle','Tuba',false],['Eloise Delson','Flute',false],
+  ['Mateo Dick','Trombone',true],['Khloe Dixon','Flute',false],
+  ['Janssen Domingo','Trumpet',false],['Jeremiah Dumars','Tuba',false],
+  ['Amelia Gallogly','Trombone',false],['Daniel Goldberg','Clarinet',false],
+  ['Cayden Goltz','Trombone',false],['James Griffin','Bass Clarinet',true],
+  ['Johanna Hartley','Clarinet',false],
+];
+const sb2 = [
+  ['Gabriela Herrera Liberato','Clarinet',false],['Hugh Jackson','Tenor Saxophone',false],
+  ['Amelia Janezic','French Horn',false],['Elizabeth Joe','Bassoon',false],
+  ['Hannah Kaminer','French Horn',false],['Sarah Kaminer','Alto Saxophone',false],
+  ['Hinav Kour Ahmad','Flute',false],['Samuel Ley','Alto Saxophone',false],
+  ['Richard Lindner','Clarinet',false],['Arin Litt','Percussion',false],
+  ['Adriana Lopez-Tzun','Clarinet',false],['Jacob Margolis','Alto Saxophone',false],
+  ['Daisy Martin Lopez','Flute',false],['Manuel Miguel Andres','Euphonium',false],
+  ['Tessa O\'Sullivan','Oboe',false],['Jaiden Powell','Bass Clarinet',false],
+  ['Nestor Rivera Lillis','Euphonium',false],['Violet Rogers','Trumpet',false],
+  ['Isabella Scheffing','Alto Saxophone',false],['Chloe Schwartz','Euphonium',false],
+  ['Liam Selk','Bassoon',false],['Own Siegel','Tenor Saxophone',false],
+  ['Emilia Skantze','Flute',false],['Bayden Sow','French Horn',false],
+  ['Noah Steinman','Trumpet',true],['Brady Sullivan','Tuba',false],
+  ['Remi Thomas','Trumpet',false],['Ryan Thompson','Trumpet',false],
+  ['Michael Torralbas','Percussion',false],['Tyler Vargas','Trumpet',false],
+  ['Anthony Vera','Clarinet',false],['David Verner','Baritone Sax',false],
+  ['Anthony Weisz','Alto Saxophone',true],['Eva Whitfield','Flute',false],
+  ['Benjamin Wisot','Percussion',false],['Andres Zarta','Euphonium',false],
+];
+
+// JE1
+const je1 = [
+  ['Jacoby Bethea','Rhythm – Bass',false],['Jack Capps','Trumpet',false],
+  ['Pedro Coutinho','Alto Sax',false],['Thomas DeLoye','Bari Sax',false],
+  ['Sage Duke','Vocalist',true],['Zavier Elvena','Rhythm – Guitar',false],
+  ['Colin Gallogly','Trombone',true],['Daniel Goodwin','Tenor / Soprano Sax',true],
+  ['Jonathan Graef','Trumpet',false],['Van Grzybek','Rhythm – Drums',true],
+  ['Mathew Harper','Trumpet',true],['Nate Higley','Tenor Sax / Clarinet',true],
+  ['Ariana Katz','Trombone',true],['Simon Nguyen','Rhythm – Piano',true],
+  ['Neil O\'Connor','Trombone',false],['Graham Randolph','Trombone',true],
+  ['Nathaniel Ratchford','Trombone',false],['Alexander Sinn','Rhythm – Piano',true],
+  ['Anderson Spellman','Tenor Sax / Clarinet',true],['Adrian Trochez','Trumpet',true],
+  ['Edilser Velasquez','Trumpet',false],['Drew Weinberg','Rhythm – Drums',false],
+  ['Davis Yang','Alto Sax / Clarinet',false],
+];
+// JE2
+const je2 = [
+  ['John Thomas Berley','Bari Sax',true],['Emmanuel Bernal','Rhythm – Piano',false],
+  ['Annabella Camacho','Trombone',false],['Addison Chisari','Trumpet',false],
+  ['Grayson Chisari','Trombone',false],['Robin Cuevas','Bari Sax',false],
+  ['Madi Ealsm','Vocalist',false],['Nate Fong','Trumpet',true],
+  ['Amelia Gallogly','Trombone',false],['Ali Grayeb','Alto Sax',true],
+  ['Natalie Hume','Tenor Sax',false],['Alexander Korkin','Rhythm – Drums',false],
+  ['Sam Ley','Alto Sax',false],['Angelina Nesbitt','Trumpet',true],
+  ['Bella Parton','Trombone',false],['Mikaela Peros','Tenor Sax / Clarinet',false],
+  ['Arsalan Siddiqui','Trombone',false],['Noah Steinman','Trumpet',true],
+  ['Rosemary Tanachaiwiwat','Rhythm – Bass',false],['Ryan Thompson','Trumpet',false],
+  ['Leah Tugwell','Rhythm – Piano',false],['Anthony Weisz','Alto Sax',true],
+  ['Benjamin Wisot','Rhythm – Drums',false],['Kemari Wynter','Rhythm – Bass',false],
+];
+// JE3
+const je3 = [
+  ['Emilie Alferez','Trumpet',false],['Maya Aloni','Rhythm – Drums',false],
+  ['Sonia Alvarez','Trombone',false],['Daniel Ayala','Sax',false],
+  ['JohnLuca Barefoot','Rhythm – Piano',false],['Stephen Carr','Trombone',false],
+  ['Gabriella Castro','Sax',false],['Noah Coore-Brown','Trumpet',false],
+  ['Janssen Domingo','Trumpet',false],['Caden Goltz','Trombone',false],
+  ['Alberto Aguayo Gonzalez','Trombone',false],['Sarah Kaminer','Sax',false],
+  ['Gio Kreekul','Sax',false],['Alex Makhorin','Rhythm – Drums',false],
+  ['Jacob Margolis','Sax',false],['Giselle Pleitez','Rhythm – Piano',false],
+  ['Isabella Scheffing','Sax',false],['Zachary Schnitzer','Trombone',false],
+  ['Owen Siegel','Sax',false],['Ailey Tetrault','Vocalist',false],
+  ['Tyler Vargas','Trumpet',false],['David Verner','Sax',false],
+  ['Brayden Yeschek','Trumpet',false],
+];
+
+// ── PAGE DEFINITIONS ─────────────────────────────────────────
 const pages = [
 
-  // 0 — cover
-  dark(`
+  // 1 — COVER
+  dp(`
     <div class="eyebrow" style="font-size:7px;margin-bottom:4px">Alexander W. Dreyfoos School of the Arts</div>
-    <div style="font-family:'Cormorant Garamond',serif;font-size:44px;color:var(--gold);opacity:.12;line-height:1;margin:6px 0;position:relative;z-index:1">♫</div>
-    <div class="h1-deco" style="font-size:clamp(28px,9vw,40px);line-height:1.15">Band<br>
-      <span style="font-size:clamp(16px,5vw,22px);letter-spacing:.18em;font-family:'Cinzel',serif;font-weight:400">&amp;</span>
-      <br>Jazz
+    <div style="font-family:'Cormorant Garamond',serif;font-size:42px;color:var(--gold);opacity:.11;line-height:1;margin:6px 0;position:relative;z-index:1">♫</div>
+    <div class="h1" style="font-size:clamp(28px,9vw,40px);line-height:1.15">Band<br>
+      <span style="font-size:clamp(16px,5vw,22px);letter-spacing:.18em;font-family:'Cinzel',serif;font-weight:400">&amp;</span><br>Jazz
     </div>
     <div class="rule"></div>
-    <div class="h2-deco" style="margin-bottom:5px">End of Year Banquet</div>
+    <div class="h2" style="margin-bottom:5px">End of Year Banquet</div>
     <div class="eyebrow" style="color:rgba(201,162,85,.5)">Spring 2026</div>
     <div class="orn" style="margin-top:16px">✦ &nbsp; ✦ &nbsp; ✦</div>
   `, ''),
 
-  // 2 — Band director message
-  light(`
+  // 2 — BAND DIRECTOR MESSAGE
+  lp(`
     <div class="pg-hdr">A Note from the Director</div>
-    <div class="pg-title">From the Podium</div>
+    <div class="pg-ttl">From the Podium</div>
     <div class="rule-full"></div>
-    <div class="body-text">
-      <p>Dear Students and Families,</p>
-      <p>What a remarkable year it has been. Watching this ensemble grow — not just as musicians, but as artists, collaborators, and young adults — has been one of the great privileges of my career.</p>
-      <p>Tonight we celebrate not only the music we have made together, but the dedication, courage, and heart you bring to every rehearsal and performance.</p>
-      <p class="body-italic">I am endlessly proud of each and every one of you.</p>
+    <div class="body">
+      <p>The end of senior year brings change and reflection. For families, it's a time of pride. For teachers, it's bittersweet — joy in your growth, sadness in letting you go.</p>
+      <p>We've shared years of laughter, tears, frustration, and triumph. Your commitment to our school and program has been exceptional, and the Dreyfoos Band thanks you deeply.</p>
+      <p>You've performed in Chicago, Orlando, France, NYC, New Orleans, and beyond. Now it's time to say goodbye — or rather, see you later.</p>
+      <p class="body-i">The door will always be open for your return.</p>
     </div>
     <div class="sig">
       <div class="sig-name">Evan Rogovin</div>
@@ -555,16 +473,15 @@ const pages = [
     </div>
   `, 'i'),
 
-  // 3 — Jazz director message
-  light(`
+  // 3 — JAZZ DIRECTOR MESSAGE
+  lp(`
     <div class="pg-hdr">A Note from the Director</div>
-    <div class="pg-title">From the Studio</div>
+    <div class="pg-ttl">From the Studio</div>
     <div class="rule-full"></div>
-    <div class="body-text">
-      <p>Dear Students and Families,</p>
-      <p>Jazz is more than music — it is a conversation, a discipline, and a way of listening to the world. This year, you have spoken with confidence, creativity, and soul.</p>
-      <p>Your commitment to the art form — from long afternoons in the practice room to the glow of the stage — is what makes this program extraordinary.</p>
-      <p class="body-italic">Thank you for inspiring me every single day.</p>
+    <div class="body">
+      <p>To the Band Senior Class of 2026 — I've seen your grit, growth, and dedication through some of our most transformative years. You leave behind a legacy of excellence, creativity, and community.</p>
+      <p>To the Jazz Seniors — look at what we've built. From 33 students in your 8th-grade year to three jazz bands with 70 swingin' musicians. We've shared stages with world-class artists and brought our sound to New Orleans and the House of Swing in NYC — two years in a row.</p>
+      <p class="body-i">Be proud of the music, the culture, and the legacy. I believe in you.</p>
     </div>
     <div class="sig">
       <div class="sig-name">Christopher De Le&oacute;n</div>
@@ -572,116 +489,211 @@ const pages = [
     </div>
   `, 'ii'),
 
-  // 4 — Band chapter
-  chap('B', 'Chapter One', 'Band', '2025 · 2026'),
+  // 4 — BAND CHAPTER
+  ch('B', 'Chapter One', 'Band', '2025 · 2026'),
 
-  // 5 — Band details
-  light(`
+  // 5 — BAND ENSEMBLES
+  lp(`
     <div class="pg-hdr">Band Department</div>
-    <div class="pg-title">Ensembles &amp; Season</div>
+    <div class="pg-ttl">Ensembles</div>
     <div class="rule-full"></div>
-    <div class="ph-section">
-      <div class="ph-lbl">Ensembles</div>
-      <div class="ph">Concert Band</div>
-      <div class="ph">Wind Ensemble</div>
-      <div class="ph">Marching Band</div>
+    <div style="display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center">
+      ${[['Wind Ensemble','Our premier concert ensemble, performing the finest in wind band literature.'],
+         ['Symphonic Band','A large and vibrant ensemble developing the next generation of Dreyfoos musicians.']].map(([n,d])=>`
+      <div style="padding:12px 14px;border:1px solid rgba(201,162,85,.18);background:rgba(201,162,85,.03);border-radius:2px">
+        <div style="font-family:'Cinzel',serif;font-size:clamp(11px,3vw,13px);font-weight:600;color:var(--ink);letter-spacing:.1em;margin-bottom:4px">${n}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(12px,3.2vw,13.5px);color:rgba(42,30,10,.55);line-height:1.5">${d}</div>
+      </div>`).join('')}
     </div>
-    <div class="ph-section">
-      <div class="ph-lbl">Season Highlights</div>
-      <div class="ph">Performances &amp; concert dates</div>
-      <div class="ph">Competitions &amp; awards</div>
-    </div>
-    <div class="ph-section">
-      <div class="ph-lbl">Director</div>
-      <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.18em;color:var(--gold-dk)">Evan Rogovin</div>
-    </div>
+    <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dk);margin-top:10px;opacity:.6;flex-shrink:0">Director · Evan Rogovin</div>
   `, '1'),
 
-  // 6 — Jazz chapter
-  chap('J', 'Chapter Two', 'Jazz', '2025 · 2026'),
+  // 6 — BAND EVENTS pt1
+  evPage('Band Department · Season Highlights', 'The Year in Performance', bandEvents1, '2', false),
 
-  // 7 — Jazz details
-  light(`
+  // 7 — BAND EVENTS pt2
+  evPage('Band Department · Season Highlights', 'The Year in Performance', bandEvents2, '3', false),
+
+  // 8 — WIND ENSEMBLE ROSTER p1
+  rosterPage('Wind Ensemble', 'Band Department · Roster', we1, '4'),
+
+  // 9 — WIND ENSEMBLE ROSTER p2
+  rosterPage('Wind Ensemble, cont.', 'Band Department · Roster', we2, '5'),
+
+  // 10 — SYMPHONIC BAND p1
+  rosterPage('Symphonic Band', 'Band Department · Roster', sb1, '6'),
+
+  // 11 — SYMPHONIC BAND p2
+  rosterPage('Symphonic Band, cont.', 'Band Department · Roster', sb2, '7'),
+
+  // 12 — JAZZ CHAPTER
+  ch('J', 'Chapter Two', 'Jazz', '2025 · 2026'),
+
+  // 13 — JAZZ ENSEMBLES
+  lp(`
     <div class="pg-hdr">Jazz Department</div>
-    <div class="pg-title">Ensembles &amp; Season</div>
+    <div class="pg-ttl">Ensembles</div>
     <div class="rule-full"></div>
-    <div class="ph-section">
-      <div class="ph-lbl">Ensembles</div>
-      <div class="ph">Jazz Ensemble I</div>
-      <div class="ph">Jazz Ensemble II</div>
+    <div style="display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center">
+      ${[['Jazz Ensemble 1','Our flagship ensemble performing the highest level of jazz repertoire.'],
+         ['Jazz Ensemble 2','A developing ensemble exploring classic and contemporary jazz styles.'],
+         ['Jazz Ensemble 3','Our foundational jazz ensemble, building tomorrow\'s jazz musicians.']].map(([n,d])=>`
+      <div style="padding:10px 14px;border:1px solid rgba(201,162,85,.18);background:rgba(201,162,85,.03);border-radius:2px">
+        <div style="font-family:'Cinzel',serif;font-size:clamp(11px,3vw,13px);font-weight:600;color:var(--ink);letter-spacing:.1em;margin-bottom:3px">${n}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(12px,3.2vw,13px);color:rgba(42,30,10,.55);line-height:1.45">${d}</div>
+      </div>`).join('')}
     </div>
-    <div class="ph-section">
-      <div class="ph-lbl">Season Highlights</div>
-      <div class="ph">Showcases &amp; performances</div>
-      <div class="ph">Guest artists &amp; masterclasses</div>
-    </div>
-    <div class="ph-section">
-      <div class="ph-lbl">Director</div>
-      <div style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:.18em;color:var(--gold-dk)">Christopher De Le&oacute;n</div>
-    </div>
-  `, '2'),
+    <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dk);margin-top:10px;opacity:.6;flex-shrink:0">Director · Christopher De Le&oacute;n</div>
+  `, '8'),
 
-  // 8 — Memories / photos
-  light(`
-    <div class="pg-hdr">The Year in Review</div>
-    <div class="pg-title">Memories &amp; Moments</div>
+  // 14 — JAZZ EVENTS pt1
+  evPage('Jazz Department · Season Highlights', 'The Year in Performance', jazzEvents1, '9', true),
+
+  // 15 — JAZZ EVENTS pt2
+  evPage('Jazz Department · Season Highlights', 'The Year in Performance', jazzEvents2, '10', true),
+
+  // 16 — JE1
+  rosterPage('Jazz Ensemble 1', 'Jazz Department · Roster', je1, '11'),
+
+  // 17 — JE2
+  rosterPage('Jazz Ensemble 2', 'Jazz Department · Roster', je2, '12'),
+
+  // 18 — JE3
+  rosterPage('Jazz Ensemble 3', 'Jazz Department · Roster', je3, '13'),
+
+  // 19 — STUDENT BAND BOARD
+  lp(`
+    <div class="pg-hdr">Band Department</div>
+    <div class="pg-ttl">Student Band Board</div>
     <div class="rule-full"></div>
-    <div class="photo-ph">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;flex:1;align-content:start">
+      ${[
+        ['Presidents',         'Colin Gallogly &amp; Graham Randolph'],
+        ['Vice Presidents',    'Tommy DeLoye &amp; Jack Capps'],
+        ['Secretary',          'John Thomas'],
+        ['Librarians',         'Davis Yang &amp; Daniel Goldberg'],
+        ['Historians',         'Mikaela Peros &amp; Johanna Daugherty'],
+        ['Stage Managers',     'Luna Schneider &amp; Levi Cooper'],
+        ['Equipment Managers', 'Zach Schnitzer &amp; Alex Korkin'],
+        ['Ad Hoc',             'Bella Parton &amp; Katherine Hill'],
+      ].map(([title, name]) => `
+        <div style="padding:5px 8px;border:1px solid rgba(201,162,85,.12);background:rgba(201,162,85,.03);border-radius:2px">
+          <div style="font-family:'Cinzel',serif;font-size:clamp(6px,1.5vw,7px);letter-spacing:.18em;text-transform:uppercase;color:var(--gold-dk);opacity:.7;margin-bottom:2px">${title}</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(11px,2.9vw,12.5px);color:#2a1e0a;line-height:1.3">${name}</div>
+        </div>`).join('')}
+    </div>
+  `, '14'),
+
+  // 20 — SENIOR SPOTLIGHTS PLACEHOLDER
+  lp(`
+    <div class="pg-hdr">Class of 2026</div>
+    <div class="pg-ttl">Senior Spotlights</div>
+    <div class="rule-full"></div>
+    <div class="photo-ph" style="flex:1">
+      <div style="font-size:22px;opacity:.14">🎓</div>
+      <div class="photo-ph-lbl">Senior profiles coming soon</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(11px,3vw,13px);color:rgba(42,30,10,.25);margin-top:4px;padding:0 20px;text-align:center">Plans, memories &amp; messages from the Class of 2026</div>
+    </div>
+  `, '15'),
+
+  // 21 — PHOTOS PLACEHOLDER
+  lp(`
+    <div class="pg-hdr">The Year in Review</div>
+    <div class="pg-ttl">Memories &amp; Moments</div>
+    <div class="rule-full"></div>
+    <div class="photo-ph" style="flex:1">
       <div class="photo-ph-icon">📷</div>
       <div class="photo-ph-lbl">Photo Gallery</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(11px,3vw,13px);color:rgba(42,30,10,.25);margin-top:4px;padding:0 20px;text-align:center">Performance &amp; candid photos coming soon</div>
     </div>
-    <div class="ph-section">
-      <div class="ph-lbl">Captions &amp; Events</div>
-      <div class="ph">Performance night descriptions</div>
-    </div>
-  `, '3'),
+  `, '16'),
 
-  // 9 — Roster
-  light(`
-    <div class="pg-hdr">2025 · 2026</div>
-    <div class="pg-title">Student Roster</div>
-    <div class="rule-full"></div>
-    <div class="ph-section">
-      <div class="ph-lbl">Band</div>
-      <div class="ph">Student names &amp; instruments</div>
-      <div class="ph">Graduating seniors</div>
-    </div>
-    <div class="ph-section">
-      <div class="ph-lbl">Jazz</div>
-      <div class="ph">Student names &amp; instruments</div>
-      <div class="ph">Graduating seniors</div>
-    </div>
-    <div class="ph-section">
-      <div class="ph-lbl">Awards &amp; Recognition</div>
-      <div class="ph">Outstanding musicians &amp; soloists</div>
-    </div>
-  `, '4'),
-
-  // 10 — Thank You
-  light(`
+  // 22 — ACKNOWLEDGMENTS
+  lp(`
     <div class="pg-hdr">With Gratitude</div>
-    <div class="pg-title">Thank You</div>
+    <div class="pg-ttl">Acknowledgments</div>
     <div class="rule-full"></div>
-    <div class="body-text">
-      <p>Tonight's celebration would not be possible without the generosity and dedication of so many — our incredible students, devoted families, and the faculty who nurture artistry every single day.</p>
+    <div class="ack-block">
+      <div class="ack-lbl">Faculty &amp; Staff</div>
+      <div class="ack-text">Thank you to <strong>Dr. Ron Hughes</strong> for all the work he does with our percussion students. Thank you to <strong>Mr. Muter</strong> for always stepping in when he is needed.</div>
     </div>
-    <div class="ph-section" style="margin-top:10px">
-      <div class="ph-lbl">Acknowledgments</div>
-      <div class="ph">Faculty &amp; staff</div>
-      <div class="ph">Parent volunteers &amp; boosters</div>
-      <div class="ph">Sponsors &amp; supporters</div>
+    <div class="ack-block">
+      <div class="ack-lbl">Parent Band Board</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 10px">
+        ${[['President','Victoria Wisot'],['Vice President','Tracy Schneider'],
+           ['Treasurer','Sara Connolly'],['Merchandise','Ifat Aloni'],
+           ['Concessions','Renata Graef'],['Events','Alexa Sherr Hartley &amp; Sara Connors'],
+           ['School Liaison','Kettia Nesbitt'],['Jazz Liaison','Theresa Fong'],
+           ['Orchestra Liaison','Cathy Jaffee']].map(([r,n])=>`
+          <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(9.5px,2.5vw,11px);line-height:1.35;color:#2a1e0a">
+            <span style="font-family:'Cinzel',serif;font-size:clamp(6px,1.5vw,6.5px);letter-spacing:.15em;text-transform:uppercase;color:var(--gold-dk);opacity:.65">${r}</span><br>${n}
+          </div>`).join('')}
+      </div>
     </div>
-    <div style="margin-top:auto;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:rgba(42,30,10,.22);text-align:center;letter-spacing:.06em;padding-top:10px">
-      ✦ &nbsp;&nbsp; Spring 2026 &nbsp;&nbsp; ✦
+    <div class="ack-block">
+      <div class="ack-lbl">Special Recognition</div>
+      <div class="ack-text">A very special thank you to <strong>Rita Berley</strong>, who was always there when we needed her!</div>
     </div>
-  `, '5'),
+  `, '17'),
 
-  // 11 — back cover
-  dark(`
+  // 23 — CHAPERONES
+  lp(`
+    <div class="pg-hdr">With Gratitude</div>
+    <div class="pg-ttl">Trip Chaperones</div>
+    <div class="rule-full"></div>
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(11px,3vw,13px);color:rgba(42,30,10,.5);margin-bottom:8px;flex-shrink:0">Thank you to the following parents who chaperoned the Tampa, New York, and Orlando trips:</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;flex:1;align-content:start">
+      ${['Rita Berley','Jake Cooper','Sara Connolly','Matt Daugherty','Sandra Daugherty',
+         'Iggy Fong','Renata Graef','Lorin Graef','James Hume','Gregg Irwin',
+         'Sherry Irwin','Jeff Katz','Guy Murray','Kettia Nesbitt','Tracy Schneider',
+         'Josh Schneider','Karla Solorzano','Jeremy Sullivan','Victoria Wisot']
+        .map(n=>`<div style="font-family:'Cormorant Garamond',serif;font-size:clamp(11px,3vw,13px);color:#2a1e0a;line-height:1.5;border-bottom:1px solid rgba(201,162,85,.08);padding:1px 0">${n}</div>`).join('')}
+    </div>
+  `, '18'),
+
+  // 24 — DSOA FACULTY
+  lp(`
+    <div class="pg-hdr">Alexander W. Dreyfoos School of the Arts</div>
+    <div class="pg-ttl">School Faculty</div>
+    <div class="rule-full"></div>
+    <div style="display:flex;flex-direction:column;gap:7px;flex:1;justify-content:center">
+      ${[
+        ['Principal',                  'Blake Bennett'],
+        ['Assistant Principals',       'Alyssa Aterburn · William Clark<br>Tenisha Finney · Ronald Lewis · Drew Dawson'],
+        ['Dean of Music Department',   'Stephanie Katz-Shear'],
+        ['Guidance Counselor',         'Olga Middleton'],
+        ['Director of Bands',          'Evan Rogovin'],
+        ['Director of Jazz Studies',   'Christopher De Le&oacute;n'],
+      ].map(([role, name]) => `
+        <div style="padding:8px 12px;border-left:2px solid rgba(201,162,85,.3);background:rgba(201,162,85,.03)">
+          <div style="font-family:'Cinzel',serif;font-size:clamp(6px,1.6vw,7.5px);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-dk);opacity:.75;margin-bottom:2px">${role}</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(12px,3.3vw,14px);color:#2a1e0a;line-height:1.4">${name}</div>
+        </div>`).join('')}
+    </div>
+  `, '20'),
+
+  // 25 — CLOSING
+  lp(`
+    <div class="pg-hdr">With Gratitude</div>
+    <div class="pg-ttl">Thank You</div>
+    <div class="rule-full"></div>
+    <div class="body">
+      <p>Thank you to every student and parent who gave your time, resources, and heart to this program.</p>
+      <p>We look forward to making more music together.</p>
+    </div>
+    <div style="margin-top:auto;text-align:center;padding-top:12px;border-top:1px solid rgba(201,162,85,.18);flex-shrink:0">
+      <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dk);opacity:.5">— Evan Rogovin &amp; Christopher De Le&oacute;n —</div>
+    </div>
+  `, '19'),
+
+  
+
+  // 26 — BACK COVER
+  dp(`
     <div class="eyebrow" style="font-size:7px;margin-bottom:6px">Alexander W. Dreyfoos School of the Arts</div>
     <div class="rule"></div>
     <div class="orn" style="margin-bottom:12px">✦ &nbsp; · &nbsp; ✦ &nbsp; · &nbsp; ✦</div>
-    <div class="h2-deco" style="letter-spacing:.2em;margin-bottom:5px">Band &amp; Jazz</div>
+    <div class="h2" style="letter-spacing:.2em;margin-bottom:5px">Band &amp; Jazz</div>
     <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(12px,3.5vw,15px);color:rgba(201,162,85,.5);position:relative;z-index:1">End of Year Banquet</div>
     <div class="rule" style="margin:16px auto 12px"></div>
     <div class="eyebrow" style="opacity:.4;margin-bottom:4px">Spring 2026</div>
@@ -690,31 +702,28 @@ const pages = [
 
 ];
 
-// ── ENGINE ───────────────────────────────────────────────────
-let cur = 0;
-let busy = false;
-
+// ── ENGINE ────────────────────────────────────────────────────
+let cur = 0, busy = false;
 const wrap    = document.getElementById('bookWrap');
 const btnPrev = document.getElementById('btnPrev');
 const btnNext = document.getElementById('btnNext');
 
-function renderDots() {
+function updateNav() {
   btnPrev.disabled = cur === 0;
   btnNext.disabled = cur === pages.length - 1;
 }
 
-function buildPage(index) {
-  const div = document.createElement('div');
-  div.className = 'page';
-  div.innerHTML = pages[index];
-  return div;
+function buildPage(i) {
+  const d = document.createElement('div');
+  d.className = 'page';
+  d.innerHTML = pages[i];
+  return d;
 }
 
-// initial render
 let activeEl = buildPage(0);
 activeEl.classList.add('front');
 wrap.appendChild(activeEl);
-renderDots();
+updateNav();
 
 function turn(dir) {
   if (busy) return;
@@ -722,68 +731,46 @@ function turn(dir) {
   if (next < 0 || next >= pages.length) return;
   busy = true;
 
-  const outClass = dir > 0 ? 'flipping-out-right' : 'flipping-out-left';
-  const inClass  = dir > 0 ? 'flipping-in-right'  : 'flipping-in-left';
+  const outC = dir > 0 ? 'flipping-out-right' : 'flipping-out-left';
+  const inC  = dir > 0 ? 'flipping-in-right'  : 'flipping-in-left';
 
-  // incoming page (behind)
   const incoming = buildPage(next);
   incoming.classList.add('behind');
   wrap.appendChild(incoming);
 
-  // slight delay so incoming is ready
   requestAnimationFrame(() => {
-    // animate out the current
-    activeEl.classList.add(outClass);
-    // animate in the new
+    activeEl.classList.add(outC);
     setTimeout(() => {
       incoming.classList.remove('behind');
-      incoming.classList.add(inClass);
+      incoming.classList.add(inC);
     }, 80);
-
     setTimeout(() => {
       activeEl.remove();
-      incoming.classList.remove(inClass);
+      incoming.classList.remove(inC);
       incoming.classList.add('front');
       activeEl = incoming;
       cur = next;
-      renderDots();
+      updateNav();
       busy = false;
-    }, 580);
+    }, 560);
   });
 }
 
-// ── INPUT ─────────────────────────────────────────────────
-// Keyboard
 document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') turn(1);
-  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   turn(-1);
+  if (e.key==='ArrowRight'||e.key==='ArrowDown') turn(1);
+  if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   turn(-1);
 });
 
-// Touch swipe
-let tx = 0, ty = 0, tActive = false;
-document.addEventListener('touchstart', e => {
-  tx = e.touches[0].clientX;
-  ty = e.touches[0].clientY;
-  tActive = true;
-}, { passive: true });
+let tx=0, ty=0, tOn=false;
+document.addEventListener('touchstart', e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; tOn=true; },{passive:true});
+document.addEventListener('touchend', e=>{
+  if(!tOn) return; tOn=false;
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>Math.abs(dy)*1.2 && Math.abs(dx)>40) turn(dx<0?1:-1);
+},{passive:true});
 
-document.addEventListener('touchend', e => {
-  if (!tActive) return;
-  tActive = false;
-  const dx = e.changedTouches[0].clientX - tx;
-  const dy = e.changedTouches[0].clientY - ty;
-  // only trigger if horizontal swipe is dominant
-  if (Math.abs(dx) > Math.abs(dy) * 1.2 && Math.abs(dx) > 40) {
-    turn(dx < 0 ? 1 : -1);
-  }
-}, { passive: true });
-
-// ── CSS VH fix for mobile browsers (address bar compensation) ──
-function setVh() {
-  document.documentElement.style.setProperty('--vh', (window.innerHeight * 0.01) + 'px');
-}
-setVh();
-window.addEventListener('resize', setVh);
+function setVh(){ document.documentElement.style.setProperty('--vh',(window.innerHeight*.01)+'px'); }
+setVh(); window.addEventListener('resize',setVh);
 </script>
 </body>
 </html>
