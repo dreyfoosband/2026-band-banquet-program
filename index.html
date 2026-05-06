@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Dreyfoos · Band &amp; Jazz · Banquet 2026</title>
@@ -651,7 +651,21 @@ const pages = [
     </div>
   `, '18'),
 
-  // 24 — DSOA FACULTY
+  // 24 — CLOSING
+  lp(`
+    <div class="pg-hdr">With Gratitude</div>
+    <div class="pg-ttl">Thank You</div>
+    <div class="rule-full"></div>
+    <div class="body">
+      <p>Thank you to every student and parent who gave your time, resources, and heart to this program.</p>
+      <p>We look forward to making more music together.</p>
+    </div>
+    <div style="margin-top:auto;text-align:center;padding-top:12px;border-top:1px solid rgba(201,162,85,.18);flex-shrink:0">
+      <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dk);opacity:.5">— Evan Rogovin &amp; Christopher De Le&oacute;n —</div>
+    </div>
+  `, '19'),
+
+  // 25 — DSOA FACULTY
   lp(`
     <div class="pg-hdr">Alexander W. Dreyfoos School of the Arts</div>
     <div class="pg-ttl">School Faculty</div>
@@ -671,22 +685,6 @@ const pages = [
         </div>`).join('')}
     </div>
   `, '20'),
-
-  // 25 — CLOSING
-  lp(`
-    <div class="pg-hdr">With Gratitude</div>
-    <div class="pg-ttl">Thank You</div>
-    <div class="rule-full"></div>
-    <div class="body">
-      <p>Thank you to every student and parent who gave your time, resources, and heart to this program.</p>
-      <p>We look forward to making more music together.</p>
-    </div>
-    <div style="margin-top:auto;text-align:center;padding-top:12px;border-top:1px solid rgba(201,162,85,.18);flex-shrink:0">
-      <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dk);opacity:.5">— Evan Rogovin &amp; Christopher De Le&oacute;n —</div>
-    </div>
-  `, '19'),
-
-  
 
   // 26 — BACK COVER
   dp(`
@@ -762,7 +760,13 @@ document.addEventListener('keydown', e => {
 });
 
 let tx=0, ty=0, tOn=false;
-document.addEventListener('touchstart', e=>{ tx=e.touches[0].clientX; ty=e.touches[0].clientY; tOn=true; },{passive:true});
+document.addEventListener('touchstart', e=>{
+  if(e.touches.length > 1) { tOn=false; return; } // ignore pinch
+  tx=e.touches[0].clientX; ty=e.touches[0].clientY; tOn=true;
+},{passive:true});
+document.addEventListener('touchmove', e=>{
+  if(e.touches.length > 1) tOn=false; // finger added mid-gesture, cancel
+},{passive:true});
 document.addEventListener('touchend', e=>{
   if(!tOn) return; tOn=false;
   const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
