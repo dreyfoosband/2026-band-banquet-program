@@ -173,10 +173,10 @@ html, body {
 
 /* ── ROSTER ── */
 .roster-cols { display:grid; grid-template-columns:1fr 1fr; gap:0 10px; flex:1; overflow:hidden; }
-.roster-item { font-family:'Cormorant Garamond',serif; font-size:clamp(10px,2.7vw,12px);
+.roster-item { font-family:'Cormorant Garamond',serif; font-size:clamp(12px,2.7vw,12px);
   color:#2a1e0a; line-height:1.45; padding:1.5px 0; border-bottom:1px solid rgba(201,162,85,.08); }
 .roster-item.senior { color:var(--gold-dk); font-weight:600; }
-.roster-item .instr { font-size:clamp(9px,2.4vw,10.5px); color:rgba(42,30,10,.45); font-style:italic; }
+.roster-item .instr { font-size:clamp(11px,2.4vw,10.5px); color:rgba(27, 20, 7, 0.45); font-style:italic; }
 .roster-item.senior .instr { color:rgba(139,106,32,.55); }
 .roster-hdr { font-family:'Cinzel',serif; font-size:clamp(7px,1.8vw,8px); letter-spacing:.22em; text-transform:uppercase;
   color:rgba(201,162,85,.6); grid-column:1/-1; margin-bottom:4px; }
@@ -535,9 +535,9 @@ const pages = [
     <div class="pg-ttl">Ensembles</div>
     <div class="rule-full"></div>
     <div style="display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center">
-      ${[['Jazz Ensemble 1','Our flagship ensemble performing the highest level of jazz repertoire.'],
-         ['Jazz Ensemble 2','A developing ensemble exploring classic and contemporary jazz styles.'],
-         ['Jazz Ensemble 3','Our foundational jazz ensemble, building tomorrow\'s jazz musicians.']].map(([n,d])=>`
+      ${[['Jazz Ensemble 1',''],
+         ['Jazz Ensemble 2',''],
+         ['Jazz Ensemble 3','']].map(([n,d])=>`
       <div style="padding:10px 14px;border:1px solid rgba(201,162,85,.18);background:rgba(201,162,85,.03);border-radius:2px">
         <div style="font-family:'Cinzel',serif;font-size:clamp(11px,3vw,13px);font-weight:600;color:var(--ink);letter-spacing:.1em;margin-bottom:3px">${n}</div>
         <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(12px,3.2vw,13px);color:rgba(42,30,10,.55);line-height:1.45">${d}</div>
