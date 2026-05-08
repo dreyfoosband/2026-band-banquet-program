@@ -173,10 +173,10 @@ html, body {
 
 /* ── ROSTER ── */
 .roster-cols { display:grid; grid-template-columns:1fr 1fr; gap:0 10px; flex:1; overflow:hidden; }
-.roster-item { font-family:'Cormorant Garamond',serif; font-size:clamp(12px,2.7vw,12px);
+.roster-item { font-family:'Cormorant Garamond',serif; font-size:clamp(10px,2.7vw,12px);
   color:#2a1e0a; line-height:1.45; padding:1.5px 0; border-bottom:1px solid rgba(201,162,85,.08); }
 .roster-item.senior { color:var(--gold-dk); font-weight:600; }
-.roster-item .instr { font-size:clamp(11px,2.4vw,10.5px); color:rgba(27, 20, 7, 0.45); font-style:italic; }
+.roster-item .instr { font-size:clamp(9px,2.4vw,10.5px); color:rgba(42,30,10,.45); font-style:italic; }
 .roster-item.senior .instr { color:rgba(139,106,32,.55); }
 .roster-hdr { font-family:'Cinzel',serif; font-size:clamp(7px,1.8vw,8px); letter-spacing:.22em; text-transform:uppercase;
   color:rgba(201,162,85,.6); grid-column:1/-1; margin-bottom:4px; }
@@ -456,7 +456,34 @@ const pages = [
     <div class="orn" style="margin-top:16px">✦ &nbsp; ✦ &nbsp; ✦</div>
   `, ''),
 
-  // 2 — BAND DIRECTOR MESSAGE
+  // 2 — RUN OF SHOW
+  dp(`
+    <div class="eyebrow" style="margin-bottom:6px">Evening of Celebration</div>
+    <div class="rule"></div>
+    <div style="font-family:'Cinzel Decorative',serif;font-size:clamp(18px,5.5vw,24px);color:var(--gold);position:relative;z-index:1;margin-bottom:4px;line-height:1.2">Run of Show</div>
+    <div class="rule" style="margin:10px auto 20px"></div>
+    <div style="display:flex;flex-direction:column;gap:0;width:100%;position:relative;z-index:1">
+      ${[
+        ['6:30 PM', 'Food is Served'],
+        ['7:00 PM', 'Award Presentation'],
+        ['8:30 PM', 'Dancing'],
+        ['10:00 PM','Event Ends'],
+      ].map(([time, event], i, arr) => `
+        <div style="display:flex;align-items:stretch;gap:16px;">
+          <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:10px">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);margin-top:4px;flex-shrink:0"></div>
+            ${i < arr.length-1 ? `<div style="flex:1;width:1px;background:linear-gradient(to bottom,rgba(201,162,85,.4),rgba(201,162,85,.1));margin:2px 0"></div>` : ''}
+          </div>
+          <div style="padding-bottom:${i < arr.length-1 ? '18px' : '0'};flex:1;text-align:left">
+            <div style="font-family:'Cinzel',serif;font-size:clamp(8px,2.2vw,10px);letter-spacing:.22em;color:var(--gold-dk);margin-bottom:2px">${time}</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(15px,4.5vw,18px);color:rgba(201,162,85,.85);font-weight:300">${event}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="orn" style="margin-top:20px">✦ &nbsp; ✦ &nbsp; ✦</div>
+  `, ''),
+
+  // 3 — BAND DIRECTOR MESSAGE
   lp(`
     <div class="pg-hdr">A Note from the Director</div>
     <div class="pg-ttl">From the Podium</div>
@@ -534,13 +561,10 @@ const pages = [
     <div class="pg-hdr">Jazz Department</div>
     <div class="pg-ttl">Ensembles</div>
     <div class="rule-full"></div>
-    <div style="display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center">
-      ${[['Jazz Ensemble 1',''],
-         ['Jazz Ensemble 2',''],
-         ['Jazz Ensemble 3','']].map(([n,d])=>`
-      <div style="padding:10px 14px;border:1px solid rgba(201,162,85,.18);background:rgba(201,162,85,.03);border-radius:2px">
-        <div style="font-family:'Cinzel',serif;font-size:clamp(11px,3vw,13px);font-weight:600;color:var(--ink);letter-spacing:.1em;margin-bottom:3px">${n}</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(12px,3.2vw,13px);color:rgba(42,30,10,.55);line-height:1.45">${d}</div>
+    <div style="display:flex;flex-direction:column;gap:10px;flex:1;justify-content:center">
+      ${['Jazz Ensemble 1','Jazz Ensemble 2','Jazz Ensemble 3'].map(n=>`
+      <div style="padding:14px 18px;border:1px solid rgba(201,162,85,.18);background:rgba(201,162,85,.03);border-radius:2px;text-align:center">
+        <div style="font-family:'Cinzel',serif;font-size:clamp(13px,3.8vw,16px);font-weight:600;color:var(--ink);letter-spacing:.12em">${n}</div>
       </div>`).join('')}
     </div>
     <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dk);margin-top:10px;opacity:.6;flex-shrink:0">Director · Christopher De Le&oacute;n</div>
@@ -595,18 +619,6 @@ const pages = [
       <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(11px,3vw,13px);color:rgba(42,30,10,.25);margin-top:4px;padding:0 20px;text-align:center">Plans, memories &amp; messages from the Class of 2026</div>
     </div>
   `, '15'),
-
-  // 21 — PHOTOS PLACEHOLDER
-  lp(`
-    <div class="pg-hdr">The Year in Review</div>
-    <div class="pg-ttl">Memories &amp; Moments</div>
-    <div class="rule-full"></div>
-    <div class="photo-ph" style="flex:1">
-      <div class="photo-ph-icon">📷</div>
-      <div class="photo-ph-lbl">Photo Gallery</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(11px,3vw,13px);color:rgba(42,30,10,.25);margin-top:4px;padding:0 20px;text-align:center">Performance &amp; candid photos coming soon</div>
-    </div>
-  `, '16'),
 
   // 22 — ACKNOWLEDGMENTS
   lp(`
