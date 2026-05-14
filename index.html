@@ -172,11 +172,11 @@ html, body {
 .ev-date { font-family:'Cinzel',serif; font-size:clamp(7px,1.8vw,8.5px); color:var(--gold-dk); letter-spacing:.06em; white-space:nowrap; }
 
 /* ── ROSTER ── */
-.roster-cols { display:grid; grid-template-columns:1fr 1fr; gap:0 10px; flex:1; overflow:hidden; }
-.roster-item { font-family:'Cormorant Garamond',serif; font-size:clamp(12px,3.2vw,14px);
-  color:#1a1008; line-height:1.55; padding:3px 0; border-bottom:1px solid rgba(201,162,85,.1); }
+.roster-cols { display:grid; grid-template-columns:1fr 1fr; gap:0 10px; align-content:start; overflow:hidden; }
+.roster-item { font-family:'Cormorant Garamond',serif; font-size:clamp(12.5px,3.3vw,14px);
+  color:#1a1008; line-height:1.45; padding:6px 0 5px; border-bottom:1px solid rgba(201,162,85,.1); }
 .roster-item.senior { color:#7a5010; font-weight:600; }
-.roster-item .instr { font-size:clamp(10.5px,2.8vw,12px); color:rgba(26,16,8,.6); font-style:italic; }
+.roster-item .instr { font-size:clamp(11px,2.8vw,12.5px); color:rgba(26,16,8,.6); font-style:italic; }
 .roster-item.senior .instr { color:rgba(122,80,16,.7); }
 .roster-hdr { font-family:'Cinzel',serif; font-size:clamp(7px,1.8vw,8px); letter-spacing:.22em; text-transform:uppercase;
   color:rgba(201,162,85,.6); grid-column:1/-1; margin-bottom:4px; }
@@ -249,7 +249,7 @@ function rosterPage(header, headerLabel, students, pgn) {
     <div class="pg-ttl">${header}</div>
     <div class="rule-full"></div>
     <div class="roster-cols">${items}</div>
-    <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.2em;color:rgba(139,106,32,.4);text-transform:uppercase;margin-top:5px;flex-shrink:0">✦ Gold = Senior</div>
+    <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:.2em;color:rgba(139,106,32,.4);text-transform:uppercase;margin-top:8px;flex-shrink:0">✦ Gold = Senior</div>
   `, pgn);
 }
 
@@ -314,7 +314,7 @@ const jazzEvents2 = [
   ['2026',     'Downbeat Magazine Awards – WINNER',       'Large Jazz Ensemble – JE1 ✦'],
 ];
 
-// WIND ENSEMBLE
+// ── WIND ENSEMBLE (64 students · 4 pages of 16) ──────────────
 const we1 = [
   ['Andrew Amburgy','Tuba',false],['Erik Aranyos','French Horn',false],
   ['John Thomas Berley','Alto Saxophone',true],['Declan Byington','French Horn',false],
@@ -324,6 +324,8 @@ const we1 = [
   ['Lara Dalmau','Flute',false],['Johanna Daugherty','Clarinet',false],
   ['Tommy De Loye','Baritone Sax',false],['Christian Degnan','French Horn',true],
   ['Zavier Elvena','Bassoon',false],['Ziv Eshet','Flute',false],
+];
+const we2 = [
   ['Josefina Ezcurra','Piano',true],['Asha Farrelly','Flute',true],
   ['Nate Fong','Trumpet',true],['Collin Gallogly','Euphonium',true],
   ['Abigail Garcia','Bassoon',false],['Bryan Garcia Mendez','Clarinet',false],
@@ -332,17 +334,18 @@ const we1 = [
   ['Van Gryzbek','Percussion',true],['Mathew Harper','Trumpet',true],
   ['Nathaniel Higley','Clarinet',true],['Katherine Hill','Tuba',false],
   ['Natalie Hume','Tenor Saxophone',false],['Summer Irwin','Oboe',true],
-  ['Lucas Jaffee','Trumpet',false],
 ];
-const we2 = [
-  ['Ariana Katz','Trombone',true],['Alexander Korkin','Percussion',false],
-  ['Sarah Kranz','French Horn',true],['Ivy Krist','Flute',true],
-  ['Princess Leyson','Clarinet',true],['Alex Makhorin','Percussion',false],
-  ['Alex Margolis','Percussion',false],['Yurem Munoz-Martinez','Double Bass',true],
-  ['Jackson Murray','Trumpet',true],['Colin Nardi','Alto Saxophone',true],
-  ['Angelina Nesbitt','Trumpet',true],['Neil O\'Connor','Euphonium',false],
+const we3 = [
+  ['Lucas Jaffee','Trumpet',false],['Ariana Katz','Trombone',true],
+  ['Alexander Korkin','Percussion',false],['Sarah Kranz','French Horn',true],
+  ['Ivy Krist','Flute',true],['Princess Leyson','Clarinet',true],
+  ['Alex Makhorin','Percussion',false],['Alex Margolis','Percussion',false],
+  ['Yurem Munoz-Martinez','Double Bass',true],['Jackson Murray','Trumpet',true],
+  ['Colin Nardi','Alto Saxophone',true],['Angelina Nesbitt','Trumpet',true],
   ['Bella Parton','Trombone',false],['Mikaela Peros','Clarinet',false],
   ['Abigail Pirela Goatache','Flute',false],['Graham Randolph','Bass Trombone',true],
+];
+const we4 = [
   ['Nat Ratchford','Euphonium',false],['Selena Romero','Bass Clarinet',false],
   ['Micah Sachsenheimer','Piano',true],['Luna Schneider','Percussion',false],
   ['Zachary Schnitzer','Tuba',false],['Adele Schwinghammer','Clarinet',false],
@@ -353,7 +356,7 @@ const we2 = [
   ['Davis Yang','Alto Saxophone',false],['Brayden Yescheck','Trumpet',false],
 ];
 
-// SYMPHONIC BAND
+// ── SYMPHONIC BAND (68 students · 5 pages of 16) ──────────────
 const sb1 = [
   ['Caleb Aberns','Tuba',false],['Alberto Aguayo Gonzalez','Euphonium',false],
   ['Jacqueline Albert','Clarinet',false],['Emilie Alferez','Trumpet',false],
@@ -363,6 +366,8 @@ const sb1 = [
   ['William Calcutti','Euphonium',false],['Annabella Camacho','Trombone',false],
   ['Jack Capps','Trumpet',false],['Stephen Carr','Trombone',false],
   ['Arrian Charles','Percussion',false],['Xachary Charles','Percussion',false],
+];
+const sb2 = [
   ['Grayson Chisari','Trombone',false],['Levi Cooper','Percussion',false],
   ['Noah Coore-Brown','Trumpet',false],['Andrea Cortes Vazquez','Clarinet',false],
   ['Pedro Coutinho','Alto Saxophone',false],['Abigail Cuevas','Baritone Sax',false],
@@ -371,17 +376,18 @@ const sb1 = [
   ['Janssen Domingo','Trumpet',false],['Jeremiah Dumars','Tuba',false],
   ['Amelia Gallogly','Trombone',false],['Daniel Goldberg','Clarinet',false],
   ['Cayden Goltz','Trombone',false],['James Griffin','Bass Clarinet',true],
-  ['Johanna Hartley','Clarinet',false],
 ];
-const sb2 = [
-  ['Gabriela Herrera Liberato','Clarinet',false],['Hugh Jackson','Tenor Saxophone',false],
-  ['Amelia Janezic','French Horn',false],['Elizabeth Joe','Bassoon',false],
-  ['Hannah Kaminer','French Horn',false],['Sarah Kaminer','Alto Saxophone',false],
-  ['Hinav Kour Ahmad','Flute',false],['Samuel Ley','Alto Saxophone',false],
-  ['Richard Lindner','Clarinet',false],['Arin Litt','Percussion',false],
-  ['Adriana Lopez-Tzun','Clarinet',false],['Jacob Margolis','Alto Saxophone',false],
-  ['Daisy Martin Lopez','Flute',false],['Manuel Miguel Andres','Euphonium',false],
-  ['Tessa O\'Sullivan','Oboe',false],['Jaiden Powell','Bass Clarinet',false],
+const sb3 = [
+  ['Johanna Hartley','Clarinet',false],['Gabriela Herrera Liberato','Clarinet',false],
+  ['Hugh Jackson','Tenor Saxophone',false],['Amelia Janezic','French Horn',false],
+  ['Elizabeth Joe','Bassoon',false],['Hannah Kaminer','French Horn',false],
+  ['Sarah Kaminer','Alto Saxophone',false],['Hinav Kour Ahmad','Flute',false],
+  ['Samuel Ley','Alto Saxophone',false],['Richard Lindner','Clarinet',false],
+  ['Arin Litt','Percussion',false],['Adriana Lopez-Tzun','Clarinet',false],
+  ['Jacob Margolis','Alto Saxophone',false],['Daisy Martin Lopez','Flute',false],
+  ['Manuel Miguel Andres','Euphonium',false],['Jaiden Powell','Bass Clarinet',false],
+];
+const sb4 = [
   ['Nestor Rivera Lillis','Euphonium',false],['Violet Rogers','Trumpet',false],
   ['Isabella Scheffing','Alto Saxophone',false],['Chloe Schwartz','Euphonium',false],
   ['Liam Selk','Bassoon',false],['Own Siegel','Tenor Saxophone',false],
@@ -390,12 +396,14 @@ const sb2 = [
   ['Remi Thomas','Trumpet',false],['Ryan Thompson','Trumpet',false],
   ['Michael Torralbas','Percussion',false],['Tyler Vargas','Trumpet',false],
   ['Anthony Vera','Clarinet',false],['David Verner','Baritone Sax',false],
+];
+const sb5 = [
   ['Anthony Weisz','Alto Saxophone',true],['Eva Whitfield','Flute',false],
   ['Benjamin Wisot','Percussion',false],['Andres Zarta','Euphonium',false],
 ];
 
-// JE1
-const je1 = [
+// ── JAZZ ENSEMBLE 1 (22 students · 2 pages: 16, 6) ────────────
+const je1a = [
   ['Jacoby Bethea','Rhythm – Bass',false],['Jack Capps','Trumpet',false],
   ['Pedro Coutinho','Alto Sax',false],['Thomas DeLoye','Bari Sax',false],
   ['Sage Duke','Vocalist',true],['Zavier Elvena','Rhythm – Guitar',false],
@@ -403,14 +411,16 @@ const je1 = [
   ['Jonathan Graef','Trumpet',false],['Van Grzybek','Rhythm – Drums',true],
   ['Mathew Harper','Trumpet',true],['Nate Higley','Tenor Sax / Clarinet',true],
   ['Ariana Katz','Trombone',true],['Simon Nguyen','Rhythm – Piano',true],
-  ['Neil O\'Connor','Trombone',false],['Graham Randolph','Trombone',true],
-  ['Nathaniel Ratchford','Trombone',false],['Alexander Sinn','Rhythm – Piano',true],
-  ['Anderson Spellman','Tenor Sax / Clarinet',true],['Adrian Trochez','Trumpet',true],
-  ['Edilser Velasquez','Trumpet',false],['Drew Weinberg','Rhythm – Drums',false],
-  ['Davis Yang','Alto Sax / Clarinet',false],
+  ['Graham Randolph','Trombone',true],['Nathaniel Ratchford','Trombone',false],
 ];
-// JE2
-const je2 = [
+const je1b = [
+  ['Alexander Sinn','Rhythm – Piano',true],['Anderson Spellman','Tenor Sax / Clarinet',true],
+  ['Adrian Trochez','Trumpet',true],['Edilser Velasquez','Trumpet',false],
+  ['Drew Weinberg','Rhythm – Drums',false],['Davis Yang','Alto Sax / Clarinet',false],
+];
+
+// ── JAZZ ENSEMBLE 2 (24 students · 2 pages: 16, 8) ────────────
+const je2a = [
   ['John Thomas Berley','Bari Sax',true],['Emmanuel Bernal','Rhythm – Piano',false],
   ['Annabella Camacho','Trombone',false],['Addison Chisari','Trumpet',false],
   ['Grayson Chisari','Trombone',false],['Robin Cuevas','Bari Sax',false],
@@ -419,13 +429,16 @@ const je2 = [
   ['Natalie Hume','Tenor Sax',false],['Alexander Korkin','Rhythm – Drums',false],
   ['Sam Ley','Alto Sax',false],['Angelina Nesbitt','Trumpet',true],
   ['Bella Parton','Trombone',false],['Mikaela Peros','Tenor Sax / Clarinet',false],
+];
+const je2b = [
   ['Arsalan Siddiqui','Trombone',false],['Noah Steinman','Trumpet',true],
   ['Rosemary Tanachaiwiwat','Rhythm – Bass',false],['Ryan Thompson','Trumpet',false],
   ['Leah Tugwell','Rhythm – Piano',false],['Anthony Weisz','Alto Sax',true],
   ['Benjamin Wisot','Rhythm – Drums',false],['Kemari Wynter','Rhythm – Bass',false],
 ];
-// JE3
-const je3 = [
+
+// ── JAZZ ENSEMBLE 3 (23 students · 2 pages: 16, 7) ─────────────
+const je3a = [
   ['Emilie Alferez','Trumpet',false],['Maya Aloni','Rhythm – Drums',false],
   ['Sonia Alvarez','Trombone',false],['Daniel Ayala','Sax',false],
   ['JohnLuca Barefoot','Rhythm – Piano',false],['Stephen Carr','Trombone',false],
@@ -434,6 +447,8 @@ const je3 = [
   ['Alberto Aguayo Gonzalez','Trombone',false],['Sarah Kaminer','Sax',false],
   ['Gio Kreekul','Sax',false],['Alex Makhorin','Rhythm – Drums',false],
   ['Jacob Margolis','Sax',false],['Giselle Pleitez','Rhythm – Piano',false],
+];
+const je3b = [
   ['Isabella Scheffing','Sax',false],['Zachary Schnitzer','Trombone',false],
   ['Owen Siegel','Sax',false],['Ailey Tetrault','Vocalist',false],
   ['Tyler Vargas','Trumpet',false],['David Verner','Sax',false],
@@ -483,22 +498,35 @@ const pages = [
     <div class="orn" style="margin-top:20px">✦ &nbsp; ✦ &nbsp; ✦</div>
   `, ''),
 
-  // 3 — BAND DIRECTOR MESSAGE
+  // 3 — BAND DIRECTOR MESSAGE p.1
   lp(`
     <div class="pg-hdr">A Note from the Director</div>
     <div class="pg-ttl">From the Podium</div>
     <div class="rule-full"></div>
-    <div class="body">
-      <p>The end of senior year brings change and reflection. For families, it's a time of pride. For teachers, it's bittersweet — joy in your growth, sadness in letting you go.</p>
-      <p>We've shared years of laughter, tears, frustration, and triumph. Your commitment to our school and program has been exceptional, and the Dreyfoos Band thanks you deeply.</p>
-      <p>You've performed in Chicago, Orlando, France, NYC, New Orleans, and beyond. Now it's time to say goodbye — or rather, see you later.</p>
-      <p class="body-i">The door will always be open for your return.</p>
+    <div class="body" style="font-size:clamp(11.5px,3vw,13px);line-height:1.65">
+      <p>To our Seniors,</p>
+      <p>As we gather here today, we find ourselves at one of life&rsquo;s great crossroads &mdash; a moment where many paths and possibilities lie ahead. The journey that brought you to this point has been filled with remarkable performances, unforgettable experiences, hard work, triumphs, challenges, and tremendous growth. And now, after four extraordinary years, the time has come for us to say goodbye&hellip; at least for a little while.</p>
+      <p>We cannot thank you enough for everything you have given to our school, our program, and our community. The legacy you leave behind for future DSOA band members is truly exceptional and will not soon be forgotten. From performing at the Midwest Clinic, to becoming three-time Essentially Ellington Finalists, to being featured at the Music for All National Festival in Indianapolis in 2025, and having both the Symphonic Band and Wind Ensemble selected as featured ensembles at the Music for All UCF Concert Band Festival &mdash; your accomplishments have set an incredibly high standard for those who follow in your footsteps. These notable achievements do not even include the countless individual honors and recognitions you have earned during your time at Dreyfoos.</p>
+    </div>
+    <div style="margin-top:auto;padding-top:10px;text-align:right;flex-shrink:0;border-top:1px solid rgba(201,162,85,.15)">
+      <span style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(139,106,32,.75)">continues &rsaquo;</span>
+    </div>
+  `, 'i'),
+
+  // 3b — BAND DIRECTOR MESSAGE p.2
+  lp(`
+    <div class="pg-hdr">A Note from the Director</div>
+    <div class="pg-ttl">From the Podium, cont.</div>
+    <div class="rule-full"></div>
+    <div class="body" style="font-size:clamp(11.5px,3vw,13px);line-height:1.65">
+      <p>Each of you has made personal sacrifices to be part of something truly magical. May the joy you feel performing alongside your bandmates and friends continue to live within you as you move forward on life&rsquo;s journey. We will truly miss you, and we wish you great happiness and success in your future.</p>
+      <p>Congratulations, Class of 2026!</p>
     </div>
     <div class="sig">
       <div class="sig-name">Evan Rogovin</div>
       <div class="sig-role">Director of Band</div>
     </div>
-  `, 'i'),
+  `, 'ii'),
 
   // 3 — JAZZ DIRECTOR MESSAGE p.1
   lp(`
@@ -514,7 +542,7 @@ const pages = [
     <div style="margin-top:auto;padding-top:10px;text-align:right;flex-shrink:0;border-top:1px solid rgba(201,162,85,.15)">
       <span style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(139,106,32,.75)">continues &rsaquo;</span>
     </div>
-  `, 'ii'),
+  `, 'iii'),
 
   // 3b — JAZZ DIRECTOR MESSAGE p.2
   lp(`
@@ -530,7 +558,7 @@ const pages = [
     <div style="margin-top:auto;padding-top:10px;text-align:right;flex-shrink:0;border-top:1px solid rgba(201,162,85,.15)">
       <span style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(139,106,32,.75)">continues &rsaquo;</span>
     </div>
-  `, 'iii'),
+  `, 'iv'),
 
   // 3c — JAZZ DIRECTOR MESSAGE p.3
   lp(`
@@ -547,7 +575,7 @@ const pages = [
       <div class="sig-name">Christopher De Le&oacute;n</div>
       <div class="sig-role">Director of Jazz Studies</div>
     </div>
-  `, 'iv'),
+  `, 'v'),
 
   // 4 — BAND CHAPTER
   ch('B', 'Chapter One', 'Band', '2025 · 2026'),
@@ -574,17 +602,32 @@ const pages = [
   // 7 — BAND EVENTS pt2
   evPage('Band Department · Season Highlights', 'The Year in Performance', bandEvents2, '3', false),
 
-  // 8 — WIND ENSEMBLE ROSTER p1
+  // 8 — WIND ENSEMBLE p1
   rosterPage('Wind Ensemble', 'Band Department · Roster', we1, '4'),
 
-  // 9 — WIND ENSEMBLE ROSTER p2
+  // 8b — WIND ENSEMBLE p2
   rosterPage('Wind Ensemble, cont.', 'Band Department · Roster', we2, '5'),
 
-  // 10 — SYMPHONIC BAND p1
-  rosterPage('Symphonic Band', 'Band Department · Roster', sb1, '6'),
+  // 8c — WIND ENSEMBLE p3
+  rosterPage('Wind Ensemble, cont.', 'Band Department · Roster', we3, '6'),
 
-  // 11 — SYMPHONIC BAND p2
-  rosterPage('Symphonic Band, cont.', 'Band Department · Roster', sb2, '7'),
+  // 8d — WIND ENSEMBLE p4
+  rosterPage('Wind Ensemble, cont.', 'Band Department · Roster', we4, '7'),
+
+  // 10 — SYMPHONIC BAND p1
+  rosterPage('Symphonic Band', 'Band Department · Roster', sb1, '8'),
+
+  // 10b — SYMPHONIC BAND p2
+  rosterPage('Symphonic Band, cont.', 'Band Department · Roster', sb2, '9'),
+
+  // 10c — SYMPHONIC BAND p3
+  rosterPage('Symphonic Band, cont.', 'Band Department · Roster', sb3, '10'),
+
+  // 10d — SYMPHONIC BAND p4
+  rosterPage('Symphonic Band, cont.', 'Band Department · Roster', sb4, '11'),
+
+  // 10e — SYMPHONIC BAND p5
+  rosterPage('Symphonic Band, cont.', 'Band Department · Roster', sb5, '12'),
 
   // 12 — JAZZ CHAPTER
   ch('J', 'Chapter Two', 'Jazz', '2025 · 2026'),
@@ -609,14 +652,23 @@ const pages = [
   // 15 — JAZZ EVENTS pt2
   evPage('Jazz Department · Season Highlights', 'The Year in Performance', jazzEvents2, '10', true),
 
-  // 16 — JE1
-  rosterPage('Jazz Ensemble 1', 'Jazz Department · Roster', je1, '11'),
+  // 16 — JE1 p1
+  rosterPage('Jazz Ensemble 1', 'Jazz Department · Roster', je1a, '11'),
 
-  // 17 — JE2
-  rosterPage('Jazz Ensemble 2', 'Jazz Department · Roster', je2, '12'),
+  // 16b — JE1 p2
+  rosterPage('Jazz Ensemble 1, cont.', 'Jazz Department · Roster', je1b, '12'),
 
-  // 18 — JE3
-  rosterPage('Jazz Ensemble 3', 'Jazz Department · Roster', je3, '13'),
+  // 17 — JE2 p1
+  rosterPage('Jazz Ensemble 2', 'Jazz Department · Roster', je2a, '13'),
+
+  // 17b — JE2 p2
+  rosterPage('Jazz Ensemble 2, cont.', 'Jazz Department · Roster', je2b, '14'),
+
+  // 18 — JE3 p1
+  rosterPage('Jazz Ensemble 3', 'Jazz Department · Roster', je3a, '15'),
+
+  // 18b — JE3 p2
+  rosterPage('Jazz Ensemble 3, cont.', 'Jazz Department · Roster', je3b, '16'),
 
   // 19 — STUDENT BAND BOARD
   lp(`
